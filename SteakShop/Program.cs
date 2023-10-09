@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using SteakShop.Models;
+
 namespace SteakShop
 {
     public class Program
@@ -8,7 +11,10 @@ namespace SteakShop
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<Steak_ShopContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Steak_Shop"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

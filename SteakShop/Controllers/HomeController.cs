@@ -16,12 +16,16 @@ namespace SteakShop.Controllers
 			_context = context;
 			_environment = environment;
 		}
+        public ActionResult Index()
+        {
+            return View();
+        }
 
 		public IActionResult Food()
         {
             var context = _context.Foods.Include(f => f.CIdNavigation).ToList();
             ViewData.Model = context;
-            return View("~/Views/Food.cshtml");
+            return View("~/Views/Home/Food.cshtml");
         }
 
         public IActionResult Privacy()

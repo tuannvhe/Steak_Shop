@@ -15,17 +15,13 @@ namespace SteakShop
 
 			//enable Session
 			builder.Services.AddDistributedMemoryCache();
-			//builder.Services.AddSession();
+			
 			builder.Services.AddHttpContextAccessor();
 			builder.Services.AddSession(cfg => {
 				cfg.Cookie.Name = "Steakshop";
 				cfg.Cookie.IsEssential = true;
 				cfg.IdleTimeout = new TimeSpan(0, 15, 0);
 			});
-			/*builder.Services.AddDbContext<Steak_ShopContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("Steak_Shop"));
-            });*/
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -45,7 +41,7 @@ namespace SteakShop
             app.UseSession();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Food}/{id?}");
+                pattern: "{controller=Login}/{action=Login}/{id?}");
 
             app.Run();
         }

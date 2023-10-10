@@ -11,10 +11,21 @@ namespace SteakShop
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<Steak_ShopContext>(options =>
+			builder.Services.AddDbContext<Steak_ShopContext>();
+
+			//enable Session
+			builder.Services.AddDistributedMemoryCache();
+			//builder.Services.AddSession();
+			builder.Services.AddHttpContextAccessor();
+			builder.Services.AddSession(cfg => {
+				cfg.Cookie.Name = "Steakshop";
+				cfg.Cookie.IsEssential = true;
+				cfg.IdleTimeout = new TimeSpan(0, 15, 0);
+			});
+			/*builder.Services.AddDbContext<Steak_ShopContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("Steak_Shop"));
-            });
+            });*/
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,10 +42,10 @@ namespace SteakShop
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Food}/{id?}");
 
             app.Run();
         }

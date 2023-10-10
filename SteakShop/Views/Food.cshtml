@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Foods";
+}
+@model IEnumerable<SteakShop.Models.Food>
+
+@foreach (var item in Model)
+{
+	<li>
+		<h4>
+			@Html.DisplayFor(modelItem => item.Id)
+			<span>$@item.Price</span>
+		</h4>
+		<p>@item.FoodName</p>
+	</li>
+}		

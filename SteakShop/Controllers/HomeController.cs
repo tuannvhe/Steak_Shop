@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,21 @@ namespace SteakShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        
+        private Steak_ShopContext _context;
+		private readonly IWebHostEnvironment _environment;
+		
+		public HomeController(Steak_ShopContext context, IWebHostEnvironment environment)
+		{
+			_context = context;
+			_environment = environment;
+		}
 
-        public HomeController(ILogger<HomeController> logger)
+		public IActionResult Food()
         {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            var context = _context.Foods.Include(f => f.CIdNavigation).ToList();
+            ViewData.Model = context;
+            return View("~/Views/Food.cshtml");
         }
 
         public IActionResult Privacy()

@@ -5,11 +5,12 @@
 
 @foreach (var item in Model)
 {
-	<li>
 		<h4>
-			@Html.DisplayFor(modelItem => item.Id)
-			<span>$@item.Price</span>
+			@Html.DisplayFor(modelItem => item.FoodName)
+
 		</h4>
-		<p>@item.FoodName</p>
-	</li>
+		<p>@item.Price</p>
+		<p>@item.Description</p>
+		<p>@item.CIdNavigation.CategoryName</p>
+		<p>@item.CIdNavigation.Descriptions</p>
 }		

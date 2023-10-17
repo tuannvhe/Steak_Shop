@@ -20,5 +20,6 @@ namespace SteakShop.Models
 
         public virtual ICollection<OrdersChef> OrdersChefs { get; set; }
         public virtual ICollection<WorkShift> WorkShifts { get; set; }
+
     }
 }

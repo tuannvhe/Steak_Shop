@@ -15,5 +15,10 @@ namespace SteakShop.Models
         public string? Descriptions { get; set; }
 
         public virtual ICollection<Food> Foods { get; set; }
-    }
+
+		public static implicit operator Category(List<Category> v)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

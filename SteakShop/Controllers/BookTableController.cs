@@ -18,11 +18,12 @@ namespace SteakShop.Controllers
 		{
 			return View();
 		}
+
 		[HttpPost]
 		public IActionResult SubmitInfo()
 		{
-			return RedirectToAction("Food", "Food");
-			//return View("~Views/Food/Food.cshtml");
+			//return RedirectToAction("Food", "Food");
+			return View("~Views/Food/Food.cshtml");
 		}
 	}
 }

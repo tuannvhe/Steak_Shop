@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
 
@@ -16,14 +17,17 @@ namespace SteakShop.Controllers
         }
         public IActionResult BookTable()
         {
-            return View();
+			var events = _context.Events.ToList();
+			ViewData.Model = events;
+			return View();
         }
 
         [HttpPost]
-		public IActionResult SubmitInfo()
+		public IActionResult SubmitInfo(int eventId)
         {
+            
 			//return RedirectToAction("Food", "Food");
-            return View("~Views/Food/Food.cshtml");
+			return View("~Views/Food/Food.cshtml");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿@{
 	ViewData["Title"] = "BookTable";
 }
+@model IEnumerable<SteakShop.Models.Event>
 <div class="site-main">
 	<!--================ Start Home Banner Area =================-->
 	<!-- Start banner bottom -->
@@ -64,14 +65,15 @@
 								<input type="text" class="form-control" id="datepicker" name="text" placeholder="Select Date & Time" onfocus="this.placeholder = ''"
 									   onblur="this.placeholder = 'Select Date & Time'">
 							</div>
+							
 							<div class="form-group col-md-12">
 								<div class="form-select">
 									<select>
-										<option value="1">Select event</option>
-										<option value="1">Select event Dhaka</option>
-										<option value="1">Select event Dilli</option>
-										<option value="1">Select event Newyork</option>
-										<option value="1">Select event Islamabad</option>
+										@foreach (var option in Model)
+											{
+												<option value="@option.Id">@option.EventName</option>
+											}
+										
 									</select>
 								</div>
 							</div>

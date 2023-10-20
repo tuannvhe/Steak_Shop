@@ -36,7 +36,7 @@
 				<div class="col-lg-6 offset-lg-6">
 					<div class="contact-form-section">
 						<h1>Reservation Form</h1>
-						<form class="contact-form-area contact-page-form contact-form text-right" id="myForm" action="mail.html" method="post">
+						<form class="contact-form-area contact-page-form contact-form text-right" id="myForm" asp-area="" asp-controller="BookTable" asp-action="GetInfo" method="post">
 							<div class="form-group col-md-12">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
 									   onblur="this.placeholder = 'Name'">
@@ -76,7 +76,7 @@
 								</div>
 							</div>
 							<div class="col-lg-12 text-center">
-								<button class="primary-btn text-uppercase">Make Reservation</button>
+								<input type="submit" class="primary-btn text-uppercase">Make Reservation/>
 							</div>
 						</form>
 					</div>

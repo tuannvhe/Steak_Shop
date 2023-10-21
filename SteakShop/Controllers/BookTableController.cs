@@ -9,8 +9,9 @@ namespace SteakShop.Controllers
     {
         private readonly Steak_ShopContext _context;
 		private readonly IWebHostEnvironment _environment;
+        public int SelectedEventId { get; set; }
 
-		public BookTableController(Steak_ShopContext context, IWebHostEnvironment environment)
+        public BookTableController(Steak_ShopContext context, IWebHostEnvironment environment)
         {
             _context = context;
 			_environment = environment;
@@ -23,9 +24,9 @@ namespace SteakShop.Controllers
         }
 
         [HttpPost]
-		public IActionResult SubmitInfo(string name, string email, string phone, int numOfPeople, DateTime date, int eventId)
+		public IActionResult SubmitInfo(string name, string email, string phone, int numOfPeople, DateTime date, int Id)
         {
-            var events = _context.Events.Where(e => e.Id == eventId).FirstOrDefault();
+            var events = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
             if (events == null)
             {
 
@@ -38,7 +39,7 @@ namespace SteakShop.Controllers
                 };
             }
 			return RedirectToAction("BookTable", "BookTable");
-			//return View("~Views/Food/Food.cshtml");
         }
+
     }
 }

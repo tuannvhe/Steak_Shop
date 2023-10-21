@@ -18,16 +18,27 @@ namespace SteakShop.Controllers
         public IActionResult BookTable()
         {
 			var events = _context.Events.ToList();
-			ViewData.Model = events;
-			return View();
+			//ViewData.Model = events;
+			return View(events);
         }
 
         [HttpPost]
-		public IActionResult SubmitInfo(int eventId)
+		public IActionResult SubmitInfo(string name, string email, string phone, int numOfPeople, DateTime date, int eventId)
         {
-            
-			//return RedirectToAction("Food", "Food");
-			return View("~Views/Food/Food.cshtml");
+            var events = _context.Events.Where(e => e.Id == eventId).FirstOrDefault();
+            if (events == null)
+            {
+
+            }
+            else
+            {
+                Order order = new Order
+                {
+
+                };
+            }
+			return RedirectToAction("BookTable", "BookTable");
+			//return View("~Views/Food/Food.cshtml");
         }
     }
 }

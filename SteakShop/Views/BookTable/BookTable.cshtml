@@ -68,12 +68,11 @@
 							
 							<div class="form-group col-md-12">
 								<div class="form-select">
-									<select>
+									<select name="selectedOption">
 										@foreach (var option in Model)
 											{
 												<option value="@option.Id">@option.EventName</option>
-											}
-										
+											}									
 									</select>
 								</div>
 							</div>

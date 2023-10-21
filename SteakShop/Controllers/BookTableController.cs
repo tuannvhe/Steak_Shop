@@ -24,9 +24,9 @@ namespace SteakShop.Controllers
         }
 
         [HttpPost]
-		public IActionResult SubmitInfo(string name, string email, string phone, int numOfPeople, DateTime date, int Id)
+		public IActionResult SubmitInfo(string name, string email, string phone, int selectedPeople, DateTime date, int selectedEvent)
         {
-            var events = _context.Events.Where(e => e.Id == Id).FirstOrDefault();
+            var events = _context.Events.Where(e => e.Id == selectedEvent).FirstOrDefault();
             if (events == null)
             {
 

@@ -26,10 +26,9 @@ namespace SteakShop.Controllers
                 && u.Password == user.Password).FirstOrDefault();
 
             if (user1 == null)
-                return View("~/Views/Login/Login.cshtml");
+                return View("~/Views/User/Login.cshtml");
             else
             {
-                HttpContext.Session.SetInt32("UserID",user.Id);
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetInt32("Role", user1.Role);
                 return RedirectToAction("Index", "Home");
@@ -39,7 +38,7 @@ namespace SteakShop.Controllers
         {
             HttpContext.Session.SetString("Username", "");
             HttpContext.Session.SetInt32("Role", 0);
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Home");
         }
 		
 		public IActionResult Register(string username, string password, string name, string email, string phone,string address)

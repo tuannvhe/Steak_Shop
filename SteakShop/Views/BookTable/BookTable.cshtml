@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "BookTable";
 }
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
 @model IEnumerable<SteakShop.Models.Event>
 <div class="site-main">
 	<!--================ Start Home Banner Area =================-->
@@ -31,6 +33,11 @@
 	<!-- End banner bottom -->
 	<!--================ End Home Banner Area =================-->
 	<!--================ Start Reservstion Area =================-->
+	@{
+		string Username = HttpContextAccessor.HttpContext.Session.GetString("Username") ?? "";
+		int Role = HttpContextAccessor.HttpContext.Session.GetInt32("Role") ?? 0;
+		var user = ViewData["User"] as User;
+	}
 	<section class="reservation-area section_gap_top">
 		<div class="container">
 			<div class="row align-items-center justify-content-center">
@@ -38,17 +45,36 @@
 					<div class="contact-form-section">
 						<h1>Reservation Form</h1>
 						<form class="contact-form-area contact-page-form contact-form text-right" asp-action="SubmitInfo" method="post">
+							@* @if(Username == "")
+							{
+								<div class="form-group col-md-12">
+									<input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
+										   onblur="this.placeholder = 'Name'">
+								</div>
+								<div class="form-group col-md-12">
+									<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
+										   onblur="this.placeholder = 'Email Address'">
+								</div>
+								<div class="form-group col-md-12">
+									<input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number" onfocus="this.placeholder = ''"
+										   onblur="this.placeholder = 'Phone Number'">
+								</div>
+							}
+							else
+							{
+								
+							} *@
 							<div class="form-group col-md-12">
 								<input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
-									   onblur="this.placeholder = 'Name'">
+									   value="@user.Username" onblur="this.placeholder = 'Name'">
 							</div>
 							<div class="form-group col-md-12">
 								<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
-									   onblur="this.placeholder = 'Email Address'">
+									   value="@user.Email" onblur="this.placeholder = 'Email Address'">
 							</div>
 							<div class="form-group col-md-12">
 								<input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number" onfocus="this.placeholder = ''"
-									   onblur="this.placeholder = 'Phone Number'">
+									   value="@user.Phone" onblur="this.placeholder = 'Phone Number'">
 							</div>
 							<div class="form-group col-md-12">
 								<div class="form-select">

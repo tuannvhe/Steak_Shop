@@ -19,25 +19,36 @@ namespace SteakShop.Controllers
         public IActionResult BookTable()
         {
 			var events = _context.Events.ToList();
-			//ViewData.Model = events;
-			return View(events);
+			string Username = HttpContext.Session.GetString("Username");
+			var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+			if (getUser == null)
+			{
+				return NotFound();
+			}
+			else
+			{
+                ViewData["User"] = getUser;
+                ViewData.Model = events;
+				return View();
+			}			
         }
-
         [HttpPost]
-		public IActionResult SubmitInfo(string name, string email, string phone, int selectedPeople, DateTime bookingDate, int selectedEvent)
+		public IActionResult SubmitInfo(int selectedPeople, DateTime bookingDate, int selectedEvent)
         {
             var events = _context.Events.Where(e => e.Id == selectedEvent).FirstOrDefault();
-            int userId = (int)HttpContext.Session.GetInt32("UserID");
-                var booking = new BookTable
-                {
-                    NumberOfPeople = selectedPeople,
-                    Date = bookingDate,
-                    EventId = selectedEvent,
-                    Uid = userId
-                };
+			string Username = HttpContext.Session.GetString("Username");
+			var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+
+			var booking = new BookTable
+            {
+                NumberOfPeople = selectedPeople,
+                Date = bookingDate,
+                EventId = selectedEvent,
+                Uid = getUser.Id
+            };
             _context.BookTables.Add(booking);
             _context.SaveChanges();
-			return RedirectToAction("BookTable", "BookTable");
+			return RedirectToAction("Index", "Home");
         }
 
     }

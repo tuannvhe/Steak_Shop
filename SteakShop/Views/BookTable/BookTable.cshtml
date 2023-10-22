@@ -1,5 +1,5 @@
 ﻿@{
-	ViewData["Title"] = "BookTable";
+    ViewData["Title"] = "BookTable";
 }
 @model IEnumerable<SteakShop.Models.Event>
 <div class="site-main">
@@ -62,7 +62,7 @@
 								</div>
 							</div>
 							<div class="form-group col-md-12">
-								<input type="text" class="form-control" id="datepicker" name="text" placeholder="Select Date & Time" onfocus="this.placeholder = ''"
+								<input type="text" class="form-control" id="datepicker" name="bookingDate" placeholder="Select Date & Time" onfocus="this.placeholder = ''"
 									   onblur="this.placeholder = 'Select Date & Time'">
 							</div>
 							
@@ -88,4 +88,10 @@
 	<!--================ End Reservstion Area =================-->
 
 </div>
- 
+<script>
+
+    function myFunction() {
+        alert("Booking Table successful");
+        
+    }
+</script>

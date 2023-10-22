@@ -29,6 +29,7 @@ namespace SteakShop.Controllers
                 return View("~/Views/User/Login.cshtml");
             else
             {
+                HttpContext.Session.SetInt32("UserID",user.Id);
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetInt32("Role", user1.Role);
                 return RedirectToAction("Index", "Home");

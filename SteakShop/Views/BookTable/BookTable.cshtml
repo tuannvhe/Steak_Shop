@@ -130,7 +130,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 text-center">
-                                <button type="submit" class="primary-btn text-uppercase">Make Reservation</button>
+                                <button type="submit" id="submit-button" class="primary-btn text-uppercase">Make Reservation</button>
                             </div>
                         </form>
                     </div>
@@ -174,7 +174,7 @@
                 <p>event: ${event}</p>
             `;
         setTimeout(function () {
-            document.getElementById("popup").style.display = "none";
+            document.getElementById("myForm").submit();
         }, 5000);
     });
 

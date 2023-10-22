@@ -1,106 +1,107 @@
 ﻿@{
-	ViewData["Title"] = "Food";
+    ViewData["Title"] = "Food";
 }
 @model IEnumerable<SteakShop.Models.Food>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Các tài liệu CSS khác -->
+    <!-- Các script JavaScript khác -->
+</head>
+<body>
 <div class="text-center">
-	<!-- Start banner bottom -->
-	<div class="row banner-bottom common-bottom-banner align-items-center justify-content-center">
-		<div class="col-lg-8 offset-lg-4">
-			<div class="banner_content">
-				<div class="row d-flex align-items-center">
-					<div class="col-lg-7 col-md-12">
-						<h1>Food Menu</h1>
-						<p>
-							inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
-							especially in the workplace. That’s why it’s crucial that, as women.
-						</p>
-					</div>
-					<div class="col-lg-5 col-md-12">
-						<div class="page-link-wrap">
-							<div class="page_link">
-								<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-								<a asp-area="" asp-controller="Food" asp-action="Food">Menu</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End banner bottom -->
-	<!--================ Menu Area =================-->
-	<section class="menu_area section_gap">
-		<div class="container">
-			<div class="row menu_inner">
+    <!-- Start banner bottom -->
+    <div class="row banner-bottom common-bottom-banner align-items-center justify-content-center">
+        <div class="col-lg-8 offset-lg-4">
+            <div class="banner_content">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-7 col-md-12">
+                        <h1>Food Menu</h1>
+                        <p>
+                            inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
+                            especially in the workplace. That’s why it’s crucial that, as women.
+                        </p>
+                    </div>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="page-link-wrap">
+                            <div class="page_link">
+                                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a asp-area="" asp-controller="Food" asp-action="Food">Menu</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End banner bottom -->
+    <!--================ Menu Area =================-->
+    <section class="menu_area section_gap">
+        <div class="container">
+            <div class="row menu_inner">
 
-				<form asp-action="Food" method="get">
-					<select name="categoryId" asp-items="ViewBag.CateIds"></select>
-					<input type="submit" value="Search" class="btn btn-primary" />
-					@* <select name="categoryId" asp-items="ViewBag.CateIds" id="categorySelect"></select> *@
-				</form>
+                <form asp-action="Food" method="get">
+                    <select name="categoryId" asp-items="ViewBag.CateIds"></select>
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                    @* <select name="categoryId" asp-items="ViewBag.CateIds" id="categorySelect"></select> *@
+                </form>
 
-				<div class="col-lg-5">				
-					<div class="menu_list res-mr" id="">
-							<ul class="list">
-								@foreach (var item in Model)
-								{
-									<li>
-										<h4>
-											@Html.DisplayFor(modelItem => item.FoodName)
-										<span>$@Html.DisplayFor(modelItem => item.Price)</span>
-										</h4>
-										<p>@Html.DisplayFor(modelItem => item.Description)</p>
-									</li>
-								}
-							</ul>
-						</div>
-					
-				</div>
+                <div class="col-lg-5">
+                    <div class="menu_list res-mr" id="">
+                        <ul class="list">
+                            @foreach (var item in Model)
+                            {
+                                <li>
+                                    <h4>
+                                        @Html.DisplayFor(modelItem => item.FoodName)
+                                        <span>$@Html.DisplayFor(modelItem => item.Price)</span>
+                                    </h4>
+                                    <p>@Html.DisplayFor(modelItem => item.Description)</p>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa-solid fa-cart-shopping" class="add-to-cart" data-food-id="@item.Id"></i>
+                                </li>
+                            }
+                        </ul>
+                    </div>
 
-				@*List Right*@
-				@* <div class="col-lg-5 offset-lg-1">
-					<div class="menu_list res-mr">
-						<h1>Appetizer</h1>
-						<ul class="list">
-							<li>
-								<h4>
-									Ham & Potato Sandwiches
-									<span>$20</span>
-								</h4>
-								<p>(French bread baguette, cooked ham, potato salad)</p>
-							</li>
-						</ul>
-					</div>
-					<div class="menu_list">
-						<h1>Appetizer</h1>
-						<ul class="list">
-							<li>
-								<h4>
-									Ham & Potato Sandwiches
-									<span>$20</span>
-								</h4>
-								<p>(French bread baguette, cooked ham, potato salad)</p>
-							</li>
-						</ul>
-					</div>
-				</div> *@
-			</div>
-		</div>
-	</section>
-	<!--================End Menu Area =================-->
+                </div>
+            </div>
+    </section>
+    <!--================End Menu Area =================-->
 </div>>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-	$(function () {
-		$("#categorySelect").change(function () {
-			var selectedCategoryId = $(this).val();
-			// Thực hiện cuộc gọi AJAX để lấy danh sách thực phẩm dựa trên selectedCategoryId và cập nhật phần hiển thị
-			$.get("/Food/Food", { categoryId: selectedCategoryId }, function (data) {
-				// Cập nhật phần hiển thị danh sách thực phẩm (ví dụ: thay thế nội dung div)
-				$("#foodList").html(data);
-			});
-		});
-	});
+    // Sử dụng jQuery để thực hiện AJAX khi bấm vào biểu tượng
+    $(".add-to-cart").on("click", function () {
+        var foodId = $(this).data("food-id");
+
+        // Thực hiện cuộc gọi AJAX đến CartController với thông tin foodId
+        $.ajax({
+            url: "/Cart/Cart",
+            type: "POST",
+            data: { foodId: foodId },
+            success: function (response) {
+                // Xử lý phản hồi từ CartController (nếu cần)
+                alert("Món ăn đã được thêm vào giỏ hàng.");
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi thêm món ăn vào giỏ hàng.");
+            }
+        });
+    });
+
+    $(function () {
+        $("#categorySelect").change(function () {
+            var selectedCategoryId = $(this).val();
+            // Thực hiện cuộc gọi AJAX để lấy danh sách thực phẩm dựa trên selectedCategoryId và cập nhật phần hiển thị
+            $.get("/Food/Food", { categoryId: selectedCategoryId }, function (data) {
+                // Cập nhật phần hiển thị danh sách thực phẩm (ví dụ: thay thế nội dung div)
+                $("#foodList").html(data);
+            });
+        });
+    });
 </script>
+</body>
+</html>

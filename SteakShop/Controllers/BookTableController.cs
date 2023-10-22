@@ -10,6 +10,7 @@ namespace SteakShop.Controllers
         private readonly Steak_ShopContext _context;
 		private readonly IWebHostEnvironment _environment;
         public int SelectedEventId { get; set; }
+        public int? UserID { get; private set; }
 
         public BookTableController(Steak_ShopContext context, IWebHostEnvironment environment)
         {

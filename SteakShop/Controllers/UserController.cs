@@ -38,7 +38,7 @@ namespace SteakShop.Controllers
         {
             HttpContext.Session.SetString("Username", "");
             HttpContext.Session.SetInt32("Role", 0);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Login");
         }
 		
 		public IActionResult Register(string username, string password, string name, string email, string phone,string address)

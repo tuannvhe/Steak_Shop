@@ -59,8 +59,16 @@
 							<a href="" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 							   aria-expanded="false"><img src="~/SteakShop/img/header/nav-icon7.png" alt="">Hello @Username</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="MyAccount">My Account</a></li>
-								<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+								@if (Role.Equals(1))
+								{
+									<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Admin">Manage</a></li>
+									<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+								}
+								else
+								{
+									<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="MyAccount">My Account</a></li>
+									<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
+								}
 							</ul>
 						</li>					
 					}
@@ -73,6 +81,7 @@
 							Table
 						</a>
 					</li>
+
 					<li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Chef" asp-action="Chef"><img src="~/SteakShop/img/header/nav-icon5.png" alt="">Chefs</a></li>
 					<li class="nav-item submenu dropdown">
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true"

@@ -35,6 +35,7 @@ namespace SteakShop.Controllers
             var address = getUser?.Address;
             var getFood = _context.Foods.Where(f => f.Id == foodid).FirstOrDefault();
             var amount = getFood.Price;
+            //tạo order mới
             var Order = new Order
             {
                 Date = currentTime,
@@ -44,6 +45,7 @@ namespace SteakShop.Controllers
             };
             _context.Orders.Add(Order); 
             _context.SaveChanges();
+            //lưu order đó vào cart
             var order = _context.Orders.Where(o => o.Id == Order.Id).FirstOrDefault();
             var Order_Foods = new OrdersFood
             {

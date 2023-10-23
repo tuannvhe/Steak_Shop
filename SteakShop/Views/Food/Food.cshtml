@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Các tài liệu CSS khác -->
     <!-- Các script JavaScript khác -->
+  
 </head>
 <body>
     <div class="text-center">
@@ -53,18 +54,27 @@
                             <ul class="list">
                                 @foreach (var item in Model)
                                 {
-                                    <li>
-                                        <h4>
-                                            @Html.DisplayFor(modelItem => item.FoodName)
-                                            <span>$@Html.DisplayFor(modelItem => item.Price)</span>
-                                        </h4>
-                                        <p>@Html.DisplayFor(modelItem => item.Description)</p>&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <i class="fa-solid fa-cart-shopping add-to-cart" data-food-id="@item.Id"></i>
-                                        <div class="form-group col-md-12">
-                                            <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" onfocus="this.placeholder = 'quantity'"
-                                                   onblur="this.placeholder = 'quantity'">
-                                        </div>
-                                    </li>
+                                    <h4>
+                                        @Html.DisplayFor(modelItem => item.FoodName)&nbsp;&nbsp;&nbsp;
+                                        <span>$@Html.DisplayFor(modelItem => item.Price)</span>&nbsp;&nbsp;&nbsp;
+                                        <span>
+                                            <i class="fa-solid fa-cart-shopping add-to-cart" data-food-id="@item.Id"></i>
+                                        </span>&nbsp;&nbsp;&nbsp;
+                                        <br />
+                                        <br/>
+                                        <span>
+                                            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+                                        </span>
+                                        <br />
+                                        <span>
+                                            <div class="form-group col-md-12">
+                                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" onfocus="this.placeholder = 'quantity'"
+                                                       onblur="this.placeholder = 'quantity'">
+                                            </div>
+                                        </span>
+                                        <br />
+                                        <br />
+                                    </h4>
                                 }
                             </ul>
                         </div>

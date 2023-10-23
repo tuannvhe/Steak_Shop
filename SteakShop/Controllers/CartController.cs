@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using SteakShop.Models;
 
 namespace SteakShop.Controllers
@@ -14,25 +15,38 @@ namespace SteakShop.Controllers
         }
         public decimal GetTotal()
         {
-			string Username = HttpContext.Session.GetString("Username");
+            /*string Username = HttpContext.Session.GetString("Username");
 			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-			var cart = _context.Carts.Include(c => c.FoodId).Where(c => c.UserId == user.Id).ToList();
+			var cart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
 			decimal totalAmount = 0;
 			foreach (var item in cart)
 			{
 				totalAmount += item.Quantity * item.Food.Price;
 			}
+            return totalAmount;*/
+
+            string Username = HttpContext.Session.GetString("Username");
+            var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+
+            var cartItems = _context.Carts
+                .Where(c => c.UserId == user.Id)
+                .Include(c => c.Food) 
+                .ToList();
+
+            decimal totalAmount = cartItems.Sum(item => item.Quantity * item.Food.Price);
+
             return totalAmount;
-		}
-        public IActionResult GetCart()
+        }
+        public IActionResult Cart()
         {
             string Username = HttpContext.Session.GetString("Username");
             var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-			var cart = _context.Carts.Include(c => c.FoodId).Where(c => c.UserId == user.Id).ToList();
+			var cart = _context.Carts.Include(c => c.Food).Where(c => c.UserId == user.Id).ToList();
 
             ViewData["TotalAmount"] = GetTotal();
-            ViewData["Cart"] = cart;
-			return View("~Views/Cart/Cart.cshtml");
+
+            ViewData.Model = cart;
+			return View();
 		}
 
         [HttpPost]
@@ -52,7 +66,6 @@ namespace SteakShop.Controllers
                     FoodId = foodId,
                     Quantity = quantity
                 };
-
                 _context.Add(cart);
                 _context.SaveChanges();
             }
@@ -66,6 +79,20 @@ namespace SteakShop.Controllers
 			ViewData["TotalAmount"] = GetTotal();
 			return View("~Views/Cart/Cart.cshtml");
         }
+
+        /*[HttpPost]
+        public IActionResult UpdateQuantity(int cartId, int newQuantity)
+        {
+            var cart = _context.Carts.Find(cartId);
+            if (cart != null)
+            {
+                cart.Quantity = newQuantity;
+                _context.Update(cart);
+                _context.SaveChanges();
+            }
+
+            return Json(new { success = true });
+        }*/
 
         public IActionResult RemoveCartItem(int foodId) {
 			string Username = HttpContext.Session.GetString("Username");
@@ -81,7 +108,7 @@ namespace SteakShop.Controllers
 			return View("~Views/Cart/Cart.cshtml");
         }
 
-        public IActionResult CreateOrder(int quantity)
+        public IActionResult CreateOrder()
         {
 			string Username = HttpContext.Session.GetString("Username");
 			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();

@@ -61,14 +61,14 @@
                                             <i class="fa-solid fa-cart-shopping add-to-cart" data-food-id="@item.Id"></i>
                                         </span>&nbsp;&nbsp;&nbsp;
                                         <br />
-                                        <br/>
+                                        <br />
                                         <span>
                                             <p>@Html.DisplayFor(modelItem => item.Description)</p>
                                         </span>
                                         <br />
                                         <span>
                                             <div class="form-group col-md-12">
-                                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" onfocus="this.placeholder = 'quantity'"
+                                                <input type="number" class="form-control quantity-input" data-food-id="@item.Id" placeholder="quantity" onfocus="this.placeholder = 'quantity'"
                                                        onblur="this.placeholder = 'quantity'">
                                             </div>
                                         </span>
@@ -89,20 +89,20 @@
     <script>
         // Sử dụng jQuery để thực hiện AJAX khi bấm vào biểu tượng
         $(".add-to-cart").on("click", function () {
-            var foodid = $(this).data("food-id");
-            var quantity = $("#quantity").val();
+            var foodId = $(this).data("food-id");
+            var quantity = $(this).closest("h4").find(".quantity-input").val();
             // thực hiện cuộc gọi ajax đến cartcontroller với thông tin foodid
             $.ajax({
-                url: "/cart/cart",
+                url: "/Cart/AddToCart",
                 type: "post",
                 data: {
-                    foodid: foodid,
+                    foodId: foodId,
                     quantity: quantity
                 },
                 success: function (response) {
                     // xử lý phản hồi từ cartcontroller (nếu cần)
                     alert("món ăn đã được thêm vào giỏ hàng.");
-                    window.location.href = '/cart/cart';
+                    window.location.href = '/Cart/AddToCart';
                 },
                 error: function () {
                     alert("có lỗi xảy ra khi thêm món ăn vào giỏ hàng.");

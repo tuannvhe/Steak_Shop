@@ -5,12 +5,12 @@ using System.Text.RegularExpressions;
 
 namespace SteakShop.Controllers
 { 
-	public class LoginController : Controller
+	public class UserController : Controller
 	{
         private readonly Steak_ShopContext _context;
         private readonly IWebHostEnvironment _environment;
 
-        public LoginController(Steak_ShopContext context, IWebHostEnvironment environment)
+        public UserController(Steak_ShopContext context, IWebHostEnvironment environment)
         {
             _context = context;
             _environment = environment;

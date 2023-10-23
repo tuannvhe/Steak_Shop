@@ -15,16 +15,28 @@ namespace SteakShop.Controllers
         }
         public decimal GetTotal()
         {
-			string Username = HttpContext.Session.GetString("Username");
+            /*string Username = HttpContext.Session.GetString("Username");
 			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
 			var cart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
 			decimal totalAmount = 0;
 			foreach (var item in cart)
 			{
-				totalAmount += item.Quantity /** item.Food.Price*/;
+				totalAmount += item.Quantity * item.Food.Price;
 			}
+            return totalAmount;*/
+
+            string Username = HttpContext.Session.GetString("Username");
+            var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+
+            var cartItems = _context.Carts
+                .Where(c => c.UserId == user.Id)
+                .Include(c => c.Food) 
+                .ToList();
+
+            decimal totalAmount = cartItems.Sum(item => item.Quantity * item.Food.Price);
+
             return totalAmount;
-		}
+        }
         public IActionResult Cart()
         {
             string Username = HttpContext.Session.GetString("Username");

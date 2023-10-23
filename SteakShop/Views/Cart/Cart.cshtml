@@ -24,7 +24,8 @@
                                          class="img-fluid rounded-3" alt="">
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <p class="lead fw-normal mb-2"> @item.Food.FoodName</p>
+                                    <h3>@item.Food.FoodName</h3>
+                                    @* <p class="lead fw-normal mb-2"> </p> *@
                                     @* <p><span class="text-muted"> @item.Food.CIdNavigation.CategoryName</span><span class="text-muted"></span></p> *@
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
@@ -53,7 +54,7 @@
                 <div class="card mb-4">                  
                         <div class="card-body p-4 d-flex flex-row justify-content-center align-items-center">
                             <div class="form-outline flex-fill">
-                                <h4>Total Amount: <label class="form-label" for="form1">@ViewBag.TotalAmount</label></h4>
+                            <h4>Total Amount: <label class="form-label" for="form1">@Math.Round(ViewBag.TotalAmount, 2)</label></h4>
                             </div>
                         </div>
                 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
 
 namespace SteakShop.Controllers
@@ -11,51 +12,93 @@ namespace SteakShop.Controllers
         {
             _context = context;
         }
-
-        public IActionResult Cart() {
+        public decimal GetTotal()
+        {
+			string Username = HttpContext.Session.GetString("Username");
+			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+			var cart = _context.Carts.Include(c => c.FoodId).Where(c => c.UserId == user.Id).ToList();
+			decimal totalAmount = 0;
+			foreach (var item in cart)
+			{
+				totalAmount += item.Quantity * item.Food.Price;
+			}
+            return totalAmount;
+		}
+        public IActionResult GetCart()
+        {
             string Username = HttpContext.Session.GetString("Username");
-            var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-            if (getUser == null)
+            var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+			var cart = _context.Carts.Include(c => c.FoodId).Where(c => c.UserId == user.Id).ToList();
+
+            ViewData["TotalAmount"] = GetTotal();
+            ViewData["Cart"] = cart;
+			return View("~Views/Cart/Cart.cshtml");
+		}
+
+        [HttpPost]
+        public IActionResult AddToCart(int foodId,int quantity)
+        {
+            string Username = HttpContext.Session.GetString("Username");
+            var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+            var food = _context.Foods.Where(f => f.Id == foodId).FirstOrDefault();
+
+			var getCart = _context.Carts.Where(c => c.UserId == user.Id && c.FoodId == foodId).FirstOrDefault();
+
+            if (getCart == null)
             {
-                return View();
+                Cart cart = new Cart
+                {
+                    UserId = user.Id,
+                    FoodId = foodId,
+                    Quantity = quantity
+                };
+
+                _context.Add(cart);
+                _context.SaveChanges();
             }
             else
             {
-                ViewData["User"] = getUser;
-                return View();
-            }
-            return View(); }  
-        [HttpPost]
-        public IActionResult Cart(int foodid,int quantity)
-        {
-            string Username = HttpContext.Session.GetString("Username");
-            var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-            var currentTime = new DateTime(); 
-            var currentDateTimeString = currentTime.ToString();
-            var address = getUser?.Address;
-            var getFood = _context.Foods.Where(f => f.Id == foodid).FirstOrDefault();
-            var amount = getFood.Price;
-            //tạo order mới
-            var Order = new Order
-            {
-                Date = currentTime,
-                Address = address,
-                TotalAmount = amount,
-                Uid = getUser?.Id
-            };
-            _context.Orders.Add(Order); 
-            _context.SaveChanges();
-            //lưu order đó vào cart
-            var order = _context.Orders.Where(o => o.Id == Order.Id).FirstOrDefault();
-            var Order_Foods = new OrdersFood
-            {
-                Oid = order.Id,
-                Fid = foodid,
-                Quantity = quantity
-            };
-            _context.OrdersFoods.Add(Order_Foods);
-            _context.SaveChanges();
-            return View();
+                getCart.Quantity += quantity;
+                _context.Update(getCart);
+				_context.SaveChanges();
+			}
+
+			ViewData["TotalAmount"] = GetTotal();
+			return View("~Views/Cart/Cart.cshtml");
         }
+
+        public IActionResult RemoveCartItem(int foodId) {
+			string Username = HttpContext.Session.GetString("Username");
+			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+			var food = _context.Foods.Where(f => f.Id == foodId).FirstOrDefault();
+			var getCartItem = _context.Carts.Where(c => c.UserId == user.Id && c.FoodId == foodId).FirstOrDefault();
+
+            getCartItem.Quantity = getCartItem.Quantity - 1;
+			_context.Update(getCartItem);
+			_context.SaveChanges();
+
+			ViewData["TotalAmount"] = GetTotal();
+			return View("~Views/Cart/Cart.cshtml");
+        }
+
+        public IActionResult CreateOrder(int quantity)
+        {
+			string Username = HttpContext.Session.GetString("Username");
+			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+			var getCartItem = _context.Carts.Where(c => c.UserId == user.Id).ToList();           
+
+            Order order = new Order
+            {
+                Date = DateTime.Now,
+                Address = user.Address,
+                TotalAmount = GetTotal(),
+                Uid = user.Id              
+            };
+
+			_context.Add(order);
+			_context.Remove(getCartItem);			
+            _context.SaveChanges();
+            return RedirectToAction("Index","Home");
+		}
     }
 }

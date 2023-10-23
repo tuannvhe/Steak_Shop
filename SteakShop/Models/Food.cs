@@ -7,6 +7,7 @@ namespace SteakShop.Models
     {
         public Food()
         {
+            Carts = new HashSet<Cart>();
             OrdersFoods = new HashSet<OrdersFood>();
         }
 
@@ -18,6 +19,7 @@ namespace SteakShop.Models
         public int CId { get; set; }
 
         public virtual Category CIdNavigation { get; set; } = null!;
+        public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<OrdersFood> OrdersFoods { get; set; }
     }
 }

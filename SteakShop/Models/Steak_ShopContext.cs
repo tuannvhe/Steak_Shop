@@ -22,6 +22,7 @@ namespace SteakShop.Models
         public virtual DbSet<BlogImage> BlogImages { get; set; } = null!;
         public virtual DbSet<BlogsCategory> BlogsCategories { get; set; } = null!;
         public virtual DbSet<BookTable> BookTables { get; set; } = null!;
+        public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Chef> Chefs { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
@@ -36,11 +37,11 @@ namespace SteakShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("Steak_Shop"));
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=(local);Database=Steak_Shop;Trusted_Connection=True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -144,6 +145,23 @@ namespace SteakShop.Models
                     .WithMany(p => p.BookTables)
                     .HasForeignKey(d => d.Uid)
                     .HasConstraintName("FK_BookTable_Users");
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.ToTable("Cart");
+
+                entity.HasOne(d => d.Food)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.FoodId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cart_Foods");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cart_Users");
             });
 
             modelBuilder.Entity<Category>(entity =>

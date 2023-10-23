@@ -9,6 +9,7 @@ namespace SteakShop.Models
         {
             Blogs = new HashSet<Blog>();
             BookTables = new HashSet<BookTable>();
+            Carts = new HashSet<Cart>();
             Orders = new HashSet<Order>();
         }
 
@@ -23,6 +24,7 @@ namespace SteakShop.Models
 
         public virtual ICollection<Blog> Blogs { get; set; }
         public virtual ICollection<BookTable> BookTables { get; set; }
+        public virtual ICollection<Cart> Carts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

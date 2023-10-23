@@ -4,120 +4,178 @@
 @using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor HttpContextAccessor;
 @model IEnumerable<SteakShop.Models.Event>
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+    }
+
+    .popup-content {
+        text-align: center;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+</style>
 <div class="site-main">
-	<!--================ Start Home Banner Area =================-->
-	<!-- Start banner bottom -->
-	<div class="row banner-bottom common-bottom-banner align-items-center justify-content-center">
-		<div class="col-lg-8 offset-lg-4">
-			<div class="banner_content">
-				<div class="row d-flex align-items-center">
-					<div class="col-lg-7 col-md-12">
-						<h1>Book table</h1>
-						<p>
-							inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
-							especially in the workplace. That’s why it’s crucial that, as women.
-						</p>
-					</div>
-					<div class="col-lg-5 col-md-12">
-						<div class="page-link-wrap">
-							<div class="page_link">
-								<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-								<a asp-area="" asp-controller="BookTable" asp-action="BookTable">Book Table</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End banner bottom -->
-	<!--================ End Home Banner Area =================-->
-	<!--================ Start Reservstion Area =================-->
-	@{
-		string Username = HttpContextAccessor.HttpContext.Session.GetString("Username") ?? "";
-		int Role = HttpContextAccessor.HttpContext.Session.GetInt32("Role") ?? 0;
-		var user = ViewData["User"] as User;
-	}
-	<section class="reservation-area section_gap_top">
-		<div class="container">
-			<div class="row align-items-center justify-content-center">
-				<div class="col-lg-6 offset-lg-6">
-					<div class="contact-form-section">
-						<h1>Reservation Form</h1>
-						<form class="contact-form-area contact-page-form contact-form text-right" asp-action="SubmitInfo" method="post">
-							@if(Username == "")
-							{
-								<div class="form-group col-md-12">
-									<input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
-										   onblur="this.placeholder = 'Name'">
-								</div>
-								<div class="form-group col-md-12">
-									<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
-										   onblur="this.placeholder = 'Email Address'">
-								</div>
-								<div class="form-group col-md-12">
-									<input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number" onfocus="this.placeholder = ''"
-										   onblur="this.placeholder = 'Phone Number'">
-								</div>
-							}
-							else
-							{
-								<div class="form-group col-md-12">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
-								value="@user.Name" onblur="this.placeholder = 'Name'">
-								</div>
-								<div class="form-group col-md-12">
-								<input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
-								value="@user.Email" onblur="this.placeholder = 'Email Address'">
-								</div>
-								<div class="form-group col-md-12">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number" onfocus="this.placeholder = ''"
-								value="@user.Phone" onblur="this.placeholder = 'Phone Number'">
-								</div>
-							}
-							
-							<div class="form-group col-md-12">
-								<div class="form-select">
-									<select name="selectedPeople">
-										<option value="0">Number of people</option>
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-										<option value="4">4</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group col-md-12">
-								<input type="text" class="form-control" id="datepicker" name="bookingDate" placeholder="Select Date & Time" onfocus="this.placeholder = ''"
-									   onblur="this.placeholder = 'Select Date & Time'">
-							</div>
-							
-							<div class="form-group col-md-12">
-								<div class="form-select">
-									<select name="selectedEvent">
-										@foreach (var option in Model)
-											{
-												<option value="@option.Id">@option.EventName</option>
-											}									
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-12 text-center">
-								<button type="submit" class="primary-btn text-uppercase">Make Reservation</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!--================ End Reservstion Area =================-->
+    <!--================ Start Home Banner Area =================-->
+    <!-- Start banner bottom -->
+    <div class="row banner-bottom common-bottom-banner align-items-center justify-content-center">
+        <div class="col-lg-8 offset-lg-4">
+            <div class="banner_content">
+                <div class="row d-flex align-items-center">
+                    <div class="col-lg-7 col-md-12">
+                        <h1>Book table</h1>
+                        <p>
+                            inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
+                            especially in the workplace. That’s why it’s crucial that, as women.
+                        </p>
+                    </div>
+                    <div class="col-lg-5 col-md-12">
+                        <div class="page-link-wrap">
+                            <div class="page_link">
+                                <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a asp-area="" asp-controller="BookTable" asp-action="BookTable">Book Table</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End banner bottom -->
+    <!--================ End Home Banner Area =================-->
+    <!--================ Start Reservstion Area =================-->
+    @{
+        string Username = HttpContextAccessor.HttpContext.Session.GetString("Username") ?? "";
+        int Role = HttpContextAccessor.HttpContext.Session.GetInt32("Role") ?? 0;
+        var user = ViewData["User"] as User;
+    }
+    <section class="reservation-area section_gap_top">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 offset-lg-6">
+                    <div class="contact-form-section">
+                        <h1>Reservation Form</h1>
+                        <form class="contact-form-area contact-page-form contact-form text-right" id="myForm" asp-action="SubmitInfo" method="post">
+                            @if (Username == "")
+                            {
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Name'">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Email Address'">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Phone Number'">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocus="this.placeholder = ''"
+                                           value="@user.Name" onblur="this.placeholder = 'Name'">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''"
+                                           value="@user.Email" onblur="this.placeholder = 'Email Address'">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number" onfocus="this.placeholder = ''"
+                                           value="@user.Phone" onblur="this.placeholder = 'Phone Number'">
+                                </div>
+                            }
+
+                            <div class="form-group col-md-12">
+                                <div class="form-select">
+                                    <select name="selectedPeople" id="NumOfPeople">
+                                        <option value="0">Number of people</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" id="datepicker" name="bookingDate" placeholder="Select Date & Time" onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Select Date & Time'">
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                <div class="form-select">
+                                    <select name="selectedEvent" id="event">
+                                        @foreach (var option in Model)
+                                        {
+                                            <option value="@option.Id">@option.EventName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <button type="submit" id="submit-button" class="primary-btn text-uppercase">Make Reservation</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="close" id="close-popup">&times;</span>
+                <!-- Hiển thị thông tin khách hàng ở đây -->
+            </div>
+        </div>
+
+    </section>
+    <!--================ End Reservstion Area =================-->
 
 </div>
 <script>
 
     function myFunction() {
         alert("Booking Table successful");
-        
+
     }
+
+    document.getElementById("myForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        var num = document.getElementById("NumOfPeople").value;
+        var event = document.getElementById("event").value;
+        document.getElementById("popup").style.display = "block";
+        var popupContent = document.querySelector(".popup-content");
+        popupContent.innerHTML = `
+                <span class="close" id="close-popup" onclick="closePopup()">&times;</span>
+                <p>Đặt bàn thành công!</p>
+                <p>Tên khách hàng: ${name}</p>
+                <p>Email: ${email}</p>
+                <p>phone: ${phone}</p>
+                <p>num: ${num}</p>
+                <p>event: ${event}</p>
+            `;
+        setTimeout(function () {
+            document.getElementById("myForm").submit();
+        }, 5000);
+    });
+
 </script>

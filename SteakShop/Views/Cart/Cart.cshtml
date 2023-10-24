@@ -5,6 +5,7 @@
 @{
 
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <section class="h-100" style="background-color: #eee;">
     <div class="container h-100 py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -25,20 +26,11 @@
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                     <h3>@item.Food.FoodName</h3>
-                                    @* <p class="lead fw-normal mb-2"> </p> *@
-                                    @* <p><span class="text-muted"> @item.Food.CIdNavigation.CategoryName</span><span class="text-muted"></span></p> *@
+                    
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                    <button class="btn btn-link px-2 decrease-quantity" data-cartid="@item.Id">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-
                                     <input id="form1" min="0" name="quantity" value="@item.Quantity" type="number"
                                            class="form-control form-control-sm quantity-input" data-cartid="@item.Id" />
-
-                                    <button class="btn btn-link px-2 increase-quantity" data-cartid="@item.Id">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
                                 </div>
                                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                     <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2)</h5>
@@ -61,7 +53,7 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <button type="submit" class="btn btn-warning btn-block btn-lg">Order</button>
+                        <button type="submit" asp-controller="Cart" asp-action="CreateOrder" class="btn btn-warning btn-block btn-lg">Order</button>
                     </div>
                 </div>
 
@@ -69,31 +61,60 @@
         </div>
     </div>
 </section>
-@* <script>
-    console.log("JavaScript is running");
+<script>
     $(document).ready(function () {
-        $(".decrease-quantity").click(function () {
-            var cartId = $(this).data("cartid");
-            var inputElement = $(`.quantity-input[data-cartid=${cartId}]`);
-            var currentQuantity = parseInt(inputElement.val());
-            if (currentQuantity > 0) {
-                inputElement.val(currentQuantity - 1);
-                updateQuantityOnServer(cartId, currentQuantity - 1);
-            }
+        $(".quantity-input").on("input", function () {
+            var $input = $(this);
+            var cartId = $input.data("cartid");
+            var newQuantity = $input.val();
+
+            // Sử dụng Ajax để cập nhật cơ sở dữ liệu với giá trị mới (newQuantity) và cartId
+            $.ajax({
+                url: "/Cart/UpdateQuantity", // Điều chỉnh đường dẫn và action tùy theo ứng dụng của bạn
+                type: "POST",
+                data: {
+                    cartId: cartId,
+                    newQuantity: newQuantity
+                },
+                success: function (data) {
+                    if (data.success) {
+                        // Cập nhật tổng số tiền sau khi cập nhật cơ sở dữ liệu
+                        location.reload();
+                        // updateItemPrice(cartId, newQuantity);
+                    }
+                }
+            });
         });
 
-        $(".increase-quantity").click(function () {
-            var cartId = $(this).data("cartid");
-            var inputElement = $(`.quantity-input[data-cartid=${cartId}]`);
-            var currentQuantity = parseInt(inputElement.val());
-            inputElement.val(currentQuantity + 1);
-            updateQuantityOnServer(cartId, currentQuantity + 1);
-        });
+        function updateTotal() {
+            // Tính tổng số tiền từ dữ liệu hiện tại và hiển thị nó
+            var total = 0;
+            $(".row").each(function () {
+                var $item = $(this);
+                var price = parseFloat($item.data("price"));
+                var quantity = parseInt($item.find(".quantity-input").val());
+                total += price * quantity;
+            });
+            // Hiển thị tổng số tiền cập nhật
+            $("#total-amount-label").text(total.toFixed(2));
+        }
+
+        function updateItemPrice(cartId, newQuantity) {
+            var $itemRow = $(".quantity-input[data-cartid='" + cartId + "']").closest(".row");
+            var price = parseFloat($itemRow.data("price"));
+            var $itemTotalPrice = $itemRow.find(".item-total-price");
+            var itemTotal = price * newQuantity;
+            $itemTotalPrice.text(itemTotal.toFixed(2));
+        }
+        function updateItemTotalPrice(cartId, newQuantity) {
+            // Tìm phần tử có thuộc tính dữ liệu "data-cartid" tương ứng
+            var $itemTotalPrice = $(".item-total-price[data-cartid='" + cartId + "']");
+            var price = parseFloat($itemTotalPrice.data("price")); // Lấy giá từ dữ liệu hoặc từ nơi bạn lưu trữ giá
+
+            // Tính tổng giá tiền và cập nhật vào phần tử HTML
+            var itemTotal = price * newQuantity;
+            $itemTotalPrice.text(itemTotal.toFixed(2));
+        }
     });
 
-    function updateQuantityOnServer(cartId, newQuantity) {
-        $.post("/Cart/UpdateQuantity", { cartId: cartId, newQuantity: newQuantity }, function (data) {
-        });
-    }
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@

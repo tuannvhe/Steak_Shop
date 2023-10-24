@@ -80,7 +80,7 @@ namespace SteakShop.Controllers
 			return View("~Views/Cart/Cart.cshtml");
         }
 
-        /*[HttpPost]
+        [HttpPost]
         public IActionResult UpdateQuantity(int cartId, int newQuantity)
         {
             var cart = _context.Carts.Find(cartId);
@@ -92,7 +92,7 @@ namespace SteakShop.Controllers
             }
 
             return Json(new { success = true });
-        }*/
+        }
 
         public IActionResult RemoveCartItem(int foodId) {
 			string Username = HttpContext.Session.GetString("Username");
@@ -125,7 +125,7 @@ namespace SteakShop.Controllers
 			_context.Add(order);
 			_context.Remove(getCartItem);			
             _context.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("CheckOut","Cart");
 		}
     }
 }

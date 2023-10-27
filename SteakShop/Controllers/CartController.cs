@@ -15,16 +15,6 @@ namespace SteakShop.Controllers
         }
         public decimal GetTotal()
         {
-            /*string Username = HttpContext.Session.GetString("Username");
-			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-			var cart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
-			decimal totalAmount = 0;
-			foreach (var item in cart)
-			{
-				totalAmount += item.Quantity * item.Food.Price;
-			}
-            return totalAmount;*/
-
             string Username = HttpContext.Session.GetString("Username");
             var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
 
@@ -83,14 +73,22 @@ namespace SteakShop.Controllers
         [HttpPost]
         public IActionResult UpdateQuantity(int cartId, int newQuantity)
         {
-            var cart = _context.Carts.Find(cartId);
-            if (cart != null)
+            if (newQuantity != 0)
             {
-                cart.Quantity = newQuantity;
-                _context.Update(cart);
-                _context.SaveChanges();
+                var cart = _context.Carts.Find(cartId);
+                if (cart != null)
+                {
+                    cart.Quantity = newQuantity;
+                    _context.Update(cart);
+                    _context.SaveChanges();
+                }
             }
-
+            else
+            {
+                var cart = _context.Carts.Find(cartId);
+                _context.Carts.Remove(cart);
+                _context.SaveChanges(); 
+            }
             return Json(new { success = true });
         }
 
@@ -110,22 +108,10 @@ namespace SteakShop.Controllers
 
         public IActionResult CreateOrder()
         {
-			string Username = HttpContext.Session.GetString("Username");
-			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-			var getCartItem = _context.Carts.Where(c => c.UserId == user.Id).ToList();           
+			          
 
-            Order order = new Order
-            {
-                Date = DateTime.Now,
-                Address = user.Address,
-                TotalAmount = GetTotal(),
-                Uid = user.Id              
-            };
-
-			_context.Add(order);
-			_context.Remove(getCartItem);			
-            _context.SaveChanges();
-            return RedirectToAction("CheckOut","Cart");
-		}
+           
+            return RedirectToAction("CheckOut", "CheckOut");
+        }
     }
 }

@@ -10,53 +10,54 @@
     <div class="container h-100 py-5">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-10">
+                <form class="contact-form-area contact-page-form contact-form text-right" id="myForm" asp-action="CreateOrder" method="post">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-normal mb-0 text-black">My Cart</h3>                   
-                </div>
-
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            @foreach (var item in Model)
-                            {
-                                <div class="col-md-2 col-lg-2 col-xl-2">
-                                    <img src="@item.Food.Image"
-                                         class="img-fluid rounded-3" alt="">
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <h3>@item.Food.FoodName</h3>
-                    
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                    <input id="form1" min="0" name="quantity" value="@item.Quantity" type="number"
-                                           class="form-control form-control-sm quantity-input" data-cartid="@item.Id" />
-                                </div>
-                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                    <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2)</h5>
-                                </div>
-                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                    <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                                </div>
-                            }
-                        </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">My Cart</h3>
                     </div>
-                </div>
 
-                <div class="card mb-4">                  
-                        <div class="card-body p-4 d-flex flex-row justify-content-center align-items-center">
-                            <div class="form-outline flex-fill">
-                            <h4>Total Amount: <label class="form-label" for="form1">@Math.Round(ViewBag.TotalAmount, 2)</label></h4>
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                @foreach (var item in Model)
+                                {
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="@item.Food.Image"
+                                             class="img-fluid rounded-3" alt="">
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                        <h3>@item.Food.FoodName</h3>
+
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                        <input id="form1" min="0" name="quantity" value="@item.Quantity" type="number"
+                                               class="form-control form-control-sm quantity-input" data-cartid="@item.Id" />
+                                    </div>
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2)</h5>
+                                    </div>
+                                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                        <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                                    </div>
+                                }
                             </div>
                         </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-body">
-                        <button type="submit" asp-controller="Cart" asp-action="CreateOrder" class="btn btn-warning btn-block btn-lg">Order</button>
                     </div>
-                </div>
 
+                    <div class="card mb-4">
+                        <div class="card-body p-4 d-flex flex-row justify-content-center align-items-center">
+                            <div class="form-outline flex-fill">
+                                <h4>Total Amount: <label class="form-label" for="form1">@Math.Round(ViewBag.TotalAmount, 2)</label></h4>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="submit" id="orderButton" class="btn btn-warning btn-block btn-lg">Order</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -84,6 +85,21 @@
                     }
                 }
             });
+        });
+
+        // $('#orderButton').click(function () {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/Cart/CreateOrder", // Điều chỉnh đường dẫn và action tùy theo ứng dụng của bạn
+        //         success: function (response) {
+        //             // Xử lý phản hồi từ Controller (nếu cần)
+        //             console.log(response);
+        //         }
+        //     });
+        // });
+
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+                document.getElementById("myForm").submit();
         });
 
         function updateTotal() {

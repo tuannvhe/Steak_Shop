@@ -7,13 +7,6 @@
 <head>
     <title>Your Page Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Các tài liệu CSS khác -->
-    <!-- Các script JavaScript khác -->
-    <style>
-        img {
-            width: 100px;
-            height: 100px;
-        }</style>
 </head>
 <body>
     <div class="text-center">
@@ -58,7 +51,8 @@
                             <ul class="list">
                                 @foreach (var item in Model)
                                 {
-                                    <img src="~/img/@item.Image" alt="@item.Image" />
+                                    <img style="width: 100px;
+            height: 100px;" src="~/img/@item.Image" alt="@item.Image" />
                                     <h4>
                                         @Html.DisplayFor(modelItem => item.FoodName)&nbsp;&nbsp;&nbsp;
                                         <span>$@Html.DisplayFor(modelItem => item.Price)</span>&nbsp;&nbsp;&nbsp;

@@ -95,7 +95,7 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="@Url.Action("ManageFood", "ManageFood")">Manage Food</a>
+                        <a class="collapse-item" href="@Url.Action("GetListFood", "Food")">Manage Food</a>
                         <a class="collapse-item" href="#">Manage Category</a>
                         <a class="collapse-item" href="#">Manage Order</a>
 
@@ -314,7 +314,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <a href="@Url.Action("Create", "ManageFood")" class="btn btn-primary">Add New</a>
+                                <a href="@Url.Action("Create", "Food")" class="btn btn-primary">Add New</a>
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
@@ -344,8 +344,8 @@
                                                 <td>@item.Description</td>
                                                 <td>@item.Image</td>
                                                 <td>                                                   
-                                                    <a href="@Url.Action("Edit", "ManageFood", new { id = item.Id })" class="btn btn-primary">Edit</a>
-                                                    <a href="@Url.Action("Delete", "ManageFood", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                                                    <a href="@Url.Action("Edit", "Food", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                                                    <a href="@Url.Action("Delete", "Food", new { id = item.Id })" class="btn btn-danger">Delete</a>
                                                 </td>
                                             </tr>
                                         }

@@ -105,13 +105,5 @@ namespace SteakShop.Controllers
 			ViewData["TotalAmount"] = GetTotal();
 			return View("~Views/Cart/Cart.cshtml");
         }
-
-        public IActionResult CreateOrder()
-        {
-			          
-
-           
-            return RedirectToAction("CheckOut", "CheckOut");
-        }
     }
 }

@@ -42,7 +42,7 @@ namespace SteakShop.Controllers
         // GET: ManageFoodController/Create
         public ActionResult Create()
         {
-            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace SteakShop.Controllers
             }
             catch
             {
-                ViewData["CateId"] = new SelectList(_context.Categories, "Id", "Id");
+                ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
                 return View(food);
             }
         }
@@ -92,7 +92,7 @@ namespace SteakShop.Controllers
                 return NotFound();
             }
 
-            ViewData["CateId"] = new SelectList(_context.Foods, "CId", "CId", food.CId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View(food);
         }
 
@@ -121,8 +121,9 @@ namespace SteakShop.Controllers
                     throw;
                 }
             }
+            var category = _context.Categories.Where(c => c.Id == food.CId).FirstOrDefault();
             //return RedirectToAction(nameof(GetListFood));
-            ViewData["CateId"] = new SelectList(_context.Foods, "CId", "CId", food.CId);
+            ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View(food);
         }
 
@@ -150,7 +151,7 @@ namespace SteakShop.Controllers
         {
             if (_context.Foods == null)
             {
-                return Problem("Entity set 'SteakShopContext.Food'  is null.");
+                return Problem("Entity set 'SteakShop.Context.Food'  is null.");
             }
             var album = await _context.Foods.FindAsync(id);
             if (album != null)

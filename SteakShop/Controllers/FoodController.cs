@@ -33,20 +33,20 @@ namespace SteakShop.Controllers
             return View("~/Views/Food/ManageFood.cshtml");
         }
 
-        // GET: ManageFoodController/Details/5
+        // GET: FoodController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: ManageFoodController/Create
+        // GET: FoodController/Create
         public ActionResult Create()
         {
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View();
         }
 
-        // POST: ManageFoodController/Create
+        // POST: FoodController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FoodName,Price,Description,Image,CId")] Food food, IFormFile file)
@@ -63,8 +63,6 @@ namespace SteakShop.Controllers
 
             food.Image = "/Images/" + file.FileName;
 
-
-            //if (ModelState.IsValid)
             try
             {
                 _context.Foods.Add(food);
@@ -78,7 +76,7 @@ namespace SteakShop.Controllers
             }
         }
 
-        // GET: ManageFoodController/Edit/5
+        // GET: FoodController/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             if (id == null || _context.Foods == null)
@@ -96,7 +94,7 @@ namespace SteakShop.Controllers
             return View(food);
         }
 
-        // POST: ManageFoodController/Edit/5
+        // POST: FoodController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FoodName,Price,Description,Image,CId")] Food food)
@@ -127,7 +125,7 @@ namespace SteakShop.Controllers
             return View(food);
         }
 
-        // GET: ManageFoodController/Delete/5
+        // GET: FoodController/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             if (id == null || _context.Foods == null)
@@ -144,7 +142,7 @@ namespace SteakShop.Controllers
             return View(food);
         }
 
-        // POST: ManageFoodController/Delete/5
+        // POST: FoodController/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)

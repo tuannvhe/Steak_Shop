@@ -150,10 +150,10 @@ namespace SteakShop.Controllers
             {
                 return Problem("Entity set 'SteakShop.Context.Food'  is null.");
             }
-            var album = await _context.Foods.FindAsync(id);
-            if (album != null)
+            var food = await _context.Foods.FindAsync(id);
+            if (food != null)
             {
-                _context.Foods.Remove(album);
+                _context.Foods.Remove(food);
             }
 
             await _context.SaveChangesAsync();

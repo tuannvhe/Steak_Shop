@@ -51,7 +51,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FoodName,Price,Description,Image,CId")] Food food, IFormFile file)
         {
-            string dir = Path.Combine(_environment.WebRootPath, "Images");
+            /*string dir = Path.Combine(_environment.WebRootPath, "Images");
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
             string filePath = Path.Combine(dir, file.FileName);
@@ -61,13 +61,13 @@ namespace SteakShop.Controllers
                 await file.CopyToAsync(fileStream);
             }
 
-            food.Image = "/Images/" + file.FileName;
+            food.Image = "/Images/" + file.FileName;*/
 
             try
             {
                 _context.Foods.Add(food);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(GetListFood));
             }
             catch
             {
@@ -120,9 +120,8 @@ namespace SteakShop.Controllers
                 }
             }
             var category = _context.Categories.Where(c => c.Id == food.CId).FirstOrDefault();
-            //return RedirectToAction(nameof(GetListFood));
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
-            return View(food);
+            return RedirectToAction(nameof(GetListFood));
         }
 
         // GET: FoodController/Delete/5

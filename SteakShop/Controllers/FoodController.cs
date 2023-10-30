@@ -36,7 +36,8 @@ namespace SteakShop.Controllers
         // GET: FoodController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var getFood = _context.Foods.Find(id);
+            return View(getFood);
         }
 
         // GET: FoodController/Create

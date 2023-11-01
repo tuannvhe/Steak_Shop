@@ -160,7 +160,7 @@
         <h2>Confirm order and pay</h2>
         <span>please make the payment, after that you can enjoy all the features and benefits.</span>
     </div>
-    <form class="contact-form-area contact-page-form contact-form text-right" id="myForm" asp-controller="CheckOut" asp-action="CompletePayment" method="post">
+    <form class="contact-form-area contact-page-form contact-form text-right" id="CheckOut" asp-controller="CheckOut" asp-action="CompletePayment" method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="card p-3">
@@ -169,7 +169,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2">
-                                <input type="number" id="CardNumber" name="name" class="form-control"   required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
+                                <input type="number" id="CardNumber" name="name" class="form-control" max="16" min="16" required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -201,7 +201,7 @@
                 </div>
                 <div class="mt-4 mb-4 d-flex justify-content-between">
                     <span>Previous step</span>
-                     <button id="btnSubmit" type="submit" class="btn btn-success px-3">Pay </button>
+                    <button type="submit" class="btn btn-success px-3">Pay </button>
                 </div>
                  <div class="card">
                         <div class="card-body">
@@ -213,13 +213,13 @@
                 <div class="card card-blue p-3 text-white mb-3">
                     <span>You have to pay</span>
                     <div class="d-flex flex-row align-items-end mb-3">
-                        <h1 class="mb-0 yellow">$@ViewData["totalPrice"]</h1>
+                        <h1 class="mb-0 yellow">$549</h1> <span>.99</span>
                     </div>
                     <span>Enjoy all the features and perk after you complete the payment</span>
                     <a href="#" class="yellow decoration">Know all the features</a>
-                    <div class="hightlight">
+                    @* <div class="hightlight">
                         <span>100% Guaranteed support and update for the next 5 years.</span>
-                    </div>
+                    </div> *@
                 </div>
             </div>
         </div>
@@ -228,18 +228,13 @@
 @* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script> *@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
 <script>
-    // $(document).ready(function () {
-    const button = document.getElementById("myButton");
-
-    // button.addEventListener("click", function () {
-    //     document.getElementById("myForm").submit();
-    // });
-    //     $("#CardNmber").on("input", function () {
-    //         function isValidCreditCard(cardNumber) {
-    //             // Xóa các khoảng trắng và ký tự không phải số
-    //             cardNumber = cardNumber.replace(/\s/g, '').replace(/[^0-9]/g, '');
+    $(document).ready(function () {
+        $("#CardNmber").on("input", function () {
+            function isValidCreditCard(cardNumber) {
+                // Xóa các khoảng trắng và ký tự không phải số
+                cardNumber = cardNumber.replace(/\s/g, '').replace(/[^0-9]/g, '');
 
     //             if (cardNumber.length !== 16) {
     //                 return false; // Độ dài không hợp lệ cho một số thẻ Visa hoặc MasterCard
@@ -266,3 +261,4 @@
     //     }
 
 </script>
+ *@

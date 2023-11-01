@@ -31,14 +31,9 @@ namespace SteakShop.Controllers
         {
             string Username = HttpContext.Session.GetString("Username");
 			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-            var cartItems = _context.Carts
-                .Where(c => c.UserId == user.Id)
-                .Include(c => c.Food)
-                .ToList();
-
-            decimal totalPrice = cartItems.Sum(item => item.Quantity * item.Food.Price);
-            ViewData["totalPrice"] = totalPrice;
-            ViewData["userCart"] = cartItems;
+            var userCart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
+            ViewData["userCart"] = userCart;
+            ViewData["TotalAmount"] = GetTotal();
             return View();
         }
         [HttpPost]
@@ -47,6 +42,7 @@ namespace SteakShop.Controllers
             string Username = HttpContext.Session.GetString("Username");
             var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
             var getCartItem = _context.Carts.Where(c => c.UserId == user.Id).ToList();
+
             Order order = new Order
             {
                 Date = DateTime.Now,
@@ -54,19 +50,24 @@ namespace SteakShop.Controllers
                 TotalAmount = GetTotal(),
                 Uid = user.Id
             };
-
             _context.Add(order);
+            _context.SaveChanges();
+
             foreach (var item in getCartItem)
             {
                 OrdersFood order_food = new OrdersFood
                 {
-                    Id = order.Id,
-                    Fid = item.Id,
+                    Oid = order.Id,
+                    Fid = item.FoodId,
                     Quantity = item.Quantity,
                 };
                 _context.Add(order_food);
             }
-            //_context.Remove(getCartItem);			
+
+            foreach (var item in getCartItem)
+            {
+                _context.Carts.Remove(item);
+            }
 
             _context.SaveChanges();
             return RedirectToAction("Index","Home");

@@ -29,10 +29,6 @@ namespace SteakShop.Controllers
         }
         public IActionResult CheckOut()
         {
-            string Username = HttpContext.Session.GetString("Username");
-			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-            var userCart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
-            ViewData["userCart"] = userCart;
             ViewData["TotalAmount"] = GetTotal();
             return View();
         }

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
+@RenderSection("Scripts", required: false)
 <head>
 
     <meta charset="utf-8">
@@ -121,7 +121,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="@Url.Action("GetListFood", "Food")">Manage Foods</a>
-                        <a class="collapse-item" href="@Url.Action("GetListCategory", "Category")">Manage Categories</a>
+                        <a class="collapse-item" href="@Url.Action("GetListCategories", "Category")">Manage Categories</a>
                         <a class="collapse-item" href="@Url.Action("GetListChef", "Chef")">Manage Chefs</a>
 
                     </div>

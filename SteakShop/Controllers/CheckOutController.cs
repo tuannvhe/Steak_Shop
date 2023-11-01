@@ -31,8 +31,14 @@ namespace SteakShop.Controllers
         {
             string Username = HttpContext.Session.GetString("Username");
 			var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
-            var userCart = _context.Carts.Where(c => c.UserId == user.Id).ToList();
-            ViewData["userCart"] = userCart;
+            var cartItems = _context.Carts
+                .Where(c => c.UserId == user.Id)
+                .Include(c => c.Food)
+                .ToList();
+
+            decimal totalPrice = cartItems.Sum(item => item.Quantity * item.Food.Price);
+            ViewData["totalPrice"] = totalPrice;
+            ViewData["userCart"] = cartItems;
             return View();
         }
         [HttpPost]

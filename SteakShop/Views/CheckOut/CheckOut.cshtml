@@ -4,7 +4,7 @@
 @{
 }
 
- <style>
+<style>
     body {
         background-color: #eee;
     }
@@ -111,56 +111,14 @@
         text-decoration: none;
         color: #fdcc49;
     }
-</style> 
-@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
-    <form class="contact-form-area contact-page-form contact-form text-right" id="myForm1" asp-controller="CheckOut" asp-action="CompletePayment" method="post">
-    <h6 class="text-uppercase">Payment details</h6>
-    <div class="inputbox mt-3"> <input type="text" name="name" class="form-control" required="required"> <span>Name on card</span> </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="inputbox mt-3 mr-2">
-                <input type="number" id="CardNumber" name="name" class="form-control" required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="d-flex flex-row">
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Expiry</span> </div>
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>CVV</span> </div>
-            </div>
-        </div>
-    </div>
-    <div class="mt-4 mb-4">
-        <h6 class="text-uppercase">Billing Address</h6>
-        <div class="row mt-3">
-            <div class="col-md-6">
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Street Address</span> </div>
-            </div>
-            <div class="col-md-6">
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>City</span> </div>
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-md-6">
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>State/Province</span> </div>
-            </div>
-            <div class="col-md-6">
-                <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Zip code</span> </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="mt-4 mb-4 d-flex justify-content-between">
+</style>
 
-        <button id="btnSubmit" type="submit" class="btn btn-success px-3">Pay </button>
-    </div>
-     <input type="submit" value="Delete"  /> 
-   </form>
- @* <div class="container mt-5 px-5">
+<div class="container mt-5 px-5">
     <div class="mb-4">
         <h2>Confirm order and pay</h2>
         <span>please make the payment, after that you can enjoy all the features and benefits.</span>
     </div>
-    <form class="contact-form-area contact-page-form contact-form text-right" id="CheckOut" asp-controller="CheckOut" asp-action="CompletePayment" method="post">
+    <form class="contact-form-area contact-page-form contact-form text-right" id="CheckOut" asp-action="CompletePayment" method="post">
         <div class="row">
             <div class="col-md-8">
                 <div class="card p-3">
@@ -169,7 +127,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="inputbox mt-3 mr-2">
-                                <input type="number" id="CardNumber" name="name" class="form-control" max="16" min="16" required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
+                                <input type="number" id="CardNumber" name="name" class="form-control"  required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -203,62 +161,24 @@
                     <span>Previous step</span>
                     <button type="submit" class="btn btn-success px-3">Pay </button>
                 </div>
-                 <div class="card">
-                        <div class="card-body">
-                            <button type="submit" id="orderButton" class="btn btn-warning btn-block btn-lg">Order</button>
-                        </div>
-                    </div>
             </div>
             <div class="col-md-4">
                 <div class="card card-blue p-3 text-white mb-3">
                     <span>You have to pay</span>
                     <div class="d-flex flex-row align-items-end mb-3">
-                        <h1 class="mb-0 yellow">$549</h1> <span>.99</span>
+                        <h1 class="mb-0 yellow">@Math.Round(ViewBag.TotalAmount, 2)$</h1>
                     </div>
                     <span>Enjoy all the features and perk after you complete the payment</span>
                     <a href="#" class="yellow decoration">Know all the features</a>
-                    @* <div class="hightlight">
+                    <div class="hightlight">
                         <span>100% Guaranteed support and update for the next 5 years.</span>
-                    </div> *@
+                    </div>
                 </div>
             </div>
         </div>
     </form>
-</div> *@ 
-@* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
-<script>
-    $(document).ready(function () {
-        $("#CardNmber").on("input", function () {
-            function isValidCreditCard(cardNumber) {
-                // Xóa các khoảng trắng và ký tự không phải số
-                cardNumber = cardNumber.replace(/\s/g, '').replace(/[^0-9]/g, '');
-
-    //             if (cardNumber.length !== 16) {
-    //                 return false; // Độ dài không hợp lệ cho một số thẻ Visa hoặc MasterCard
-    //             }
-
-    //             // Áp dụng Luhn algorithm để kiểm tra số kiểm tra
-    //             var sum = 0;
-    //             var doubleUp = false;
-    //             for (var i = cardNumber.length - 1; i >= 0; i--) {
-    //                 var digit = parseInt(cardNumber.charAt(i), 10);
-    //                 if (doubleUp) {
-    //                     digit *= 2;
-    //                     if (digit > 9) {
-    //                         digit -= 9;
-    //                     }
-    //                 }
-    //                 sum += digit;
-    //                 doubleUp = !doubleUp;
-    //             }
-
-    //             return (sum % 10) === 0;
-    //         }
-    //     }
-    //     }
-
-</script>
- *@

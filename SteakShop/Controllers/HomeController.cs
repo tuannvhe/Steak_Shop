@@ -16,7 +16,7 @@ namespace SteakShop.Controllers
 			_context = context;
 			_environment = environment;
 		}
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }

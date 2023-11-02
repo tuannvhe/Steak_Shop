@@ -40,18 +40,32 @@
                 </div>
                 <div class="col-lg-5 offset-lg-1">
                     <div class="left-content">
-                        <h1>Daily Food Courses with Drinks </h1>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat.
-                        </p>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
-                        </p>
+                        <h1>Our Chefs </h1>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> &nbsp; Name &nbsp; </th>
+                                    <th> &nbsp; Certificate &nbsp; </th>
+                                    <th> &nbsp; Email &nbsp; </th>
+                                    <th> &nbsp; WorkShift &nbsp; </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <h4>
+                                                &nbsp;  @Html.DisplayFor(modelItem => item.Name) &nbsp;
+                                            </h4>
+                                        </td>
+                                        <td><span> &nbsp; @Html.DisplayFor(modelItem => item.Certificate) &nbsp; </span></td>
+                                        <td><p> &nbsp; @Html.DisplayFor(modelItem => item.Email) &nbsp; </p></td>
+                                        
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                         <img src="~/SteakShop/img/chef/signature.png" alt="">
                     </div>
                 </div>
@@ -71,7 +85,7 @@
                                 <a href="~/SteakShop/img/food/food6.jpg" class="img-popup"><img src="~/SteakShop/img/chef/item2.png" alt=""></a>
                             </div>
                         </div>
-                        <!-- single chef item -->
+                        @* <!-- single chef item -->
                         <div class="col-lg-2 col-md-6">
                             <div class="single-chef-item">
                                 <a href="~/SteakShop/img/food/food7.jpg" class="img-popup"><img src="~/SteakShop/img/chef/item3.png" alt=""></a>
@@ -82,36 +96,12 @@
                             <div class="single-chef-item">
                                 <a href="~/SteakShop/img/food/food8.jpg" class="img-popup"><img src="~/SteakShop/img/chef/item4.png" alt=""></a>
                             </div>
-                        </div>
+                        </div> *@
                     </div>
                 </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th> &nbsp; Name &nbsp; </th>
-                        <th> &nbsp; Certificate &nbsp; </th>
-                        <th> &nbsp; Email &nbsp; </th>
-                        <th> &nbsp; WorkShift &nbsp; </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                <h4>
-                                    &nbsp;  @Html.DisplayFor(modelItem => item.Name) &nbsp;
-                                </h4>
-                            </td>
-                            <td><span> &nbsp; @Html.DisplayFor(modelItem => item.Certificate) &nbsp; </span></td>
-                            <td><p> &nbsp; @Html.DisplayFor(modelItem => item.Email) &nbsp; </p></td>
-                            <td><p> &nbsp; @Html.DisplayFor(modelItem => item.WorkShifts) &nbsp; </p></td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            
 
         </div>
     </div>

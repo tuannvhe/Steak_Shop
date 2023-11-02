@@ -44,14 +44,18 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("ManageOrders", "Order")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
             <!-- Divider -->
-            <hr class="sidebar-divider">
             <hr class="sidebar-divider">
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Chart" asp-action="Chart">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Analysis</span>
+                    <span>asdasdsa</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -61,10 +65,10 @@
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="@Url.Action("GetListFood", "Food")">Manage Foods</a>
                         <a class="collapse-item" href="@Url.Action("GetListCategories", "Category")">Manage Categories</a>
-                        <a class="collapse-item" href="@Url.Action("GetListChef", "Chef")">Manage Chefs</a>
-
+                        <a class="collapse-item" href="@Url.Action("GetListFood", "Food")">Manage Foods</a>                       
+                        <a class="collapse-item" href="@Url.Action("GetListChefs", "Chef")">Manage Chefs</a>
+                        @* <a class="collapse-item" href="@Url.Action("ManageOrders", "Order")">Manage Order</a> *@
                     </div>
                 </div>
             </li>
@@ -283,21 +287,21 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="~/SteakShop/Admin/vendor/jquery/jquery.min.js"></script>
-    <script src="Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="~/SteakShop/Admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="~/SteakShop/Admin/js/sb-admin-2.min.js"></script>
+    <script src="~/Admin/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="~/SteakShop/Admin/vendor/chart.js/Chart.min.js"></script>
+    <script src="~/Admin/vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="~/SteakShop/Admin/js/demo/chart-area-demo.js"></script>
-    <script src="~/SteakShop/Admin/js/demo/chart-pie-demo.js"></script>
+    <script src="~/Admin/js/demo/chart-area-demo.js"></script>
+    <script src="~/Admin/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

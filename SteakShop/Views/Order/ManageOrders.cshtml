@@ -2,7 +2,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IEnumerable<SteakShop.Models.Food>
+@model IEnumerable<SteakShop.Models.Order>
 <html lang="en">
 <head>
     <title>SB Admin 2 - Tables</title>
@@ -15,7 +15,7 @@
     <!-- Custom fonts for this template-->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
-    <link rel="stylesheet" href="~/Admin/css/sb-admin-2.css"  type="text/css">
+    <link rel="stylesheet" href="~/Admin/css/sb-admin-2.css" type="text/css">
 </head>
 <body>
     <!-- Begin Page Content -->
@@ -28,41 +28,45 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Food Manage</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Order Manage</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <a href="@Url.Action("Create", "Food")" class="btn btn-primary">Add New</a>
+                    @* <a href="@Url.Action("Create", "Food")" class="btn btn-primary">Add New</a> *@
+                    <form asp-action="GetOrdersByDate" method="get">
+                        Select Start Date: <input type="date" name="startDate" id="startDate" min="2000-01-01" /> <br>
+                        Select End Date: <input type="date" name="endDate" id="endDate" min="2000-01-01" />
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </form>
+                    <h5>Total: @Math.Round(ViewBag.TotalAmount, 2)$</h5>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Food Name</th>
-                                <th>Price</th>
-                                <th>Description</th>
-                                <th>Image</th>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th>Total Amount</th>
                                 <th>Action</th>
-
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Food Name</th>
-                                <th>Price</th>
-                                <th>Description</th>
-                                <th>Image</th>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Address</th>
+                                <th>Total Amount</th>           
                                 <th>Action</th>
-                            </tr>
                         </tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.FoodName</td>
-                                    <td>@Math.Round(item.Price, 2)$</td>
-                                    <td>@item.Description</td>
-                                    <td>@item.Image</td>
+                                    <td>@item.UidNavigation?.Username</td>
+                                    <td>@item.Date.ToShortDateString()</td>
+                                    <td>@item.Address</td>
+                                    <td>@Math.Round(item.TotalAmount, 2)$</td>
                                     <td>
-                                        <a href="@Url.Action("Edit", "Food", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                                        <a href="@Url.Action("Details", "Order", new { id = item.Id })" class="btn btn-primary">Details</a>
                                         <a href="@Url.Action("Delete", "Food", new { id = item.Id })" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>

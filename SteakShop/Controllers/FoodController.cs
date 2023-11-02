@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
+using X.PagedList;
 
 namespace SteakShop.Controllers
 {
@@ -15,16 +17,20 @@ namespace SteakShop.Controllers
 			_context = context;
 			_environment = environment;
 		}
-
-		public async Task<IActionResult> Food(int categoryId)
+        public async Task<IActionResult> Food(int categoryId/*, int? page*/)
 		{
 			List<SelectListItem> categories = new SelectList(_context.Categories, "Id", "CategoryName", categoryId).ToList();
 			categories.Insert(0, new SelectListItem { Value = "0", Text = "All" });
 			ViewData["CateIds"] = categories;
+           /* if (page == null) page = 1;         
+            int pageSize = 4; 
+            int pageNumber = (page ?? 1);*/
 
-			var foods = _context.Foods.Where(f => f.CId == (categoryId == 0 ? f.CId : categoryId));
+            var foods = _context.Foods.Where(f => f.CId == (categoryId == 0 ? f.CId : categoryId))
+                .ToList();
+                /*.ToPagedList(pageNumber, pageSize);*/
 
-			return View(await foods.ToListAsync());
+            return View(await foods.ToListAsync());
 		}
         public ActionResult GetListFood()
         {

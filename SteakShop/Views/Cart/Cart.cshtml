@@ -37,7 +37,7 @@
                                         <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2)</h5>
                                     </div>
                                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                        <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                                        
                                     </div>
                                 }
                             </div>
@@ -86,17 +86,6 @@
                 }
             });
         });
-
-        // $('#orderButton').click(function () {
-        //     $.ajax({
-        //         type: "POST",
-        //         url: "/Cart/CreateOrder", // Điều chỉnh đường dẫn và action tùy theo ứng dụng của bạn
-        //         success: function (response) {
-        //             // Xử lý phản hồi từ Controller (nếu cần)
-        //             console.log(response);
-        //         }
-        //     });
-        // });
 
         document.getElementById("myForm").addEventListener("submit", function (event) {
                 document.getElementById("myForm").submit();

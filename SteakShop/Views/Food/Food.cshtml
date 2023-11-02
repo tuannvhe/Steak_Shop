@@ -1,6 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Food";
 }
+@* @using PagedList.Mvc;
+@using X.PagedList
+
+@using X.PagedList.Mvc
+
+@model X.PagedList.PagedList<SteakShop.Models.Food> *@
+
 @model IEnumerable<SteakShop.Models.Food>
 <!DOCTYPE html>
 <html>
@@ -39,20 +46,16 @@
         <section class="menu_area section_gap">
             <div class="container">
                 <div class="row menu_inner">
-
                     <form asp-action="Food" method="get">
                         <select name="categoryId" asp-items="ViewBag.CateIds"></select>
                         <input type="submit" value="Search" class="btn btn-primary" />
-                        @* <select name="categoryId" asp-items="ViewBag.CateIds" id="categorySelect"></select> *@
                     </form>
-
                     <div class="col-lg-5">
                         <div class="menu_list res-mr" id="">
                             <ul class="list">
                                 @foreach (var item in Model)
                                 {
-                                    <img style="width: 100px;
-            height: 100px;" src="~/img/@item.Image" alt="@item.Image" />
+                                    <img style="width: 120px; height: 120px;" src="~/img/@item.Image" alt="@item.Image" />
                                     <h4>
                                         @Html.DisplayFor(modelItem => item.FoodName)&nbsp;&nbsp;&nbsp;
                                         <span>$@Html.DisplayFor(modelItem => item.Price)</span>&nbsp;&nbsp;&nbsp;
@@ -67,8 +70,7 @@
                                         <br />
                                         <span>
                                             <div class="form-group col-md-12">
-                                                <input type="number" class="form-control quantity-input" data-food-id="@item.Id" placeholder="quantity" onfocus="this.placeholder = 'quantity'"
-                                                       onblur="this.placeholder = 'quantity'">
+                                                <input type="number" class="form-control quantity-input" data-food-id="@item.Id" placeholder="quantity" onfocus="this.placeholder = 'quantity'" onblur="this.placeholder = 'quantity'">
                                             </div>
                                         </span>
                                         <br />
@@ -78,11 +80,20 @@
                             </ul>
                         </div>
 
+                        <!-- Phân trang -->
+                       @*  <div class="text-center">
+                            <div class="text-center">
+                                @Html.PagedListPager(Model, page => Url.Action("Food", new { page })
+                                , new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded
+                                    , MaximumPageNumbersToDisplay = 5 })
+                            </div>
+                        </div> *@
                     </div>
                 </div>
+            </div>
         </section>
         <!--================End Menu Area =================-->
-    </div>>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>

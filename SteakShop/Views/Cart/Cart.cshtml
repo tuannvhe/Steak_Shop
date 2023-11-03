@@ -34,7 +34,7 @@
                                                class="form-control form-control-sm quantity-input" data-cartid="@item.Id" />
                                     </div>
                                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2)</h5>
+                                        <h5 class="mb-0"> @Math.Round(item.Food.Price * item.Quantity, 2) $</h5>
                                     </div>
                                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                         
@@ -47,7 +47,7 @@
                     <div class="card mb-4">
                         <div class="card-body p-4 d-flex flex-row justify-content-center align-items-center">
                             <div class="form-outline flex-fill">
-                                <h4>Total Amount: <label class="form-label" for="form1">@Math.Round(ViewBag.TotalAmount, 2)</label></h4>
+                                <h4>Total Amount: <label class="form-label" for="form1">@Math.Round(ViewBag.TotalAmount, 2) $</label></h4>
                             </div>
                         </div>
                     </div>

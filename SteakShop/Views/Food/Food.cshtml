@@ -58,7 +58,7 @@
                                     <img style="width: 120px; height: 120px;" src="~/img/@item.Image" alt="@item.Image" />
                                     <h4>
                                         @Html.DisplayFor(modelItem => item.FoodName)&nbsp;&nbsp;&nbsp;
-                                        <span>$@Html.DisplayFor(modelItem => item.Price)</span>&nbsp;&nbsp;&nbsp;
+                                        <span>@Html.DisplayFor(modelItem => item.Price) $</span>&nbsp;&nbsp;&nbsp;
                                         <span>
                                             <i class="fa-solid fa-cart-shopping add-to-cart" data-food-id="@item.Id"></i>
                                         </span>&nbsp;&nbsp;&nbsp;

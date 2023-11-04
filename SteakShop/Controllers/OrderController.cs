@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SteakShop.Models;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace SteakShop.Controllers
 {
@@ -15,9 +16,26 @@ namespace SteakShop.Controllers
             _context = context;
             _environment = environment;
         }
+
+        public ActionResult Details(int id)
+        {
+            var getDetails = _context.OrdersFoods
+                .Include(o => o.FidNavigation)
+                .Where(o => o.Oid == id)
+                .ToList();
+            var listOrders = _context.Orders.Where(o => o.Id == id).ToList();
+            ViewData.Model = getDetails;
+            ViewData["TotalAmount"] = GetTotal(listOrders);
+            return View();
+        }
         public IActionResult ManageOrders()
         {
-            var orders = _context.Orders.Include(o => o.UidNavigation).ToList();
+            DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime endDate = DateTime.Now;
+            var orders = _context.Orders
+                .Include(o => o.UidNavigation)
+                .Where(o => o.Date >= startDate && o.Date <= endDate)
+                .ToList();
             ViewData.Model = orders;
             ViewData["TotalAmount"] = GetTotal(orders);
             return View();
@@ -25,7 +43,6 @@ namespace SteakShop.Controllers
         public decimal GetTotal(List<Order> orders)
         {
             decimal totalAmount = orders.Sum(item => item.TotalAmount);
-
             return totalAmount;
         }
         [HttpGet]
@@ -33,11 +50,19 @@ namespace SteakShop.Controllers
         {
             if (startDate > endDate)
             {
-                return NotFound();
+                var emptyList = new List<Order>();
+                ViewData.Model = emptyList;
+                decimal totalAmount = 0;
+                ViewData["TotalAmount"] = totalAmount;
             }
             else if (startDate == null || endDate == null )
-            {                
-                var orders = _context.Orders.Include(o => o.UidNavigation).ToList();
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+                endDate = DateTime.Now;
+                var orders = _context.Orders
+                    .Include(o => o.UidNavigation)
+                    .Where(o => o.Date >= startDate && o.Date <= endDate)
+                    .ToList();
                 ViewData.Model = orders;
                 ViewData["TotalAmount"] = GetTotal(orders);
             }
@@ -53,5 +78,6 @@ namespace SteakShop.Controllers
             
             return View("~/Views/Order/ManageOrders.cshtml");
         }
+
     }
 }

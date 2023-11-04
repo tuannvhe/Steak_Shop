@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
+using System.Globalization;
 
 namespace SteakShop.Controllers
 {
@@ -38,10 +39,13 @@ namespace SteakShop.Controllers
             string Username = HttpContext.Session.GetString("Username");
             var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
             var getCartItem = _context.Carts.Where(c => c.UserId == user.Id).ToList();
-
+            DateTime currentTime = DateTime.Now;
+            string format = "yyyy-MM-dd HH:mm:ss";
+            string timeString = currentTime.ToString("yyyy-MM-dd HH:mm:ss");
+            DateTime datetime = DateTime.ParseExact(timeString, format, CultureInfo.InvariantCulture);
             Order order = new Order
             {
-                Date = DateTime.Now,
+                Date = datetime,
                 Address = user.Address,
                 TotalAmount = GetTotal(),
                 Uid = user.Id

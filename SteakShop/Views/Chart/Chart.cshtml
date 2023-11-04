@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 @{
-  
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 <head>
 
@@ -58,18 +58,16 @@
                         </button>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Hôm nay</a>
-                            <a class="dropdown-item" href="#">Hôm qua</a>
-                            <a class="dropdown-item" href="#">7 ngày qua</a>
-                            <a class="dropdown-item" href="#">30 ngày qua</a>
-                            <a class="dropdown-item" href="#">90 ngày qua</a>
-                            <a class="dropdown-item" href="#">365 ngày qua</a>
-                            <a class="dropdown-item" href="#">Tháng trước</a>
-                            <a class="dropdown-item" href="#">12 tháng qua</a>
-                            <a class="dropdown-item" href="#">Năm trước</a>
-                            <a class="dropdown-item" href="#">Từ đầu tuần đến hiện tại</a>
-                            <a class="dropdown-item" href="#">Từ đầu tháng đến hiện tại</a>
-                            <a class="dropdown-item" href="#">Từ đầu năm đến hiện tại</a>
+                            <a class="dropdown-item" id="0" href="#">Hôm nay</a>
+                            <a class="dropdown-item" id="1" href="#">Hôm qua</a>
+                            <a class="dropdown-item" id="2" href="#">4 ngày qua</a>
+                            <a class="dropdown-item" id="3" href="#">7 ngày qua</a>
+                            <a class="dropdown-item" id="4" href="#">30 ngày qua</a>
+                            <a class="dropdown-item" id="5" href="#">90 ngày qua</a>
+                            <a class="dropdown-item" id="6" href="#">365 ngày qua</a>
+                            <a class="dropdown-item" id="7" href="#">Tháng trước</a>
+                            <a class="dropdown-item" id="8" href="#">12 tháng qua</a>
+                            <a class="dropdown-item" id="9" href="#">Năm trước</a>
                         </div>
                     </div>
                     
@@ -176,34 +174,37 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Admin/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/Admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="~/Admin/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
+    <script src="~/Admin/vendor/chart.js/Chart.min.js"></script>
+    
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-    <script src="js/demo/chart-bar-demo.js"></script>
+    <script src="~/Admin/js/demo/chart-area-demo.js"></script>
+    <script src="~/Admin/js/demo/chart-pie-demo.js"></script>
+    <script src="~/Admin/js/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
+        // var chartData = @Html.Raw(Json.Serialize(ViewData["ChartData"]));
+        // var bigData = @Html.Raw(Json.Serialize(ViewData["bigData"]));
+        var chartData = [0, 10, 20, 30];
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line', // để vẽ đường
             data: {
-                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4'], // label ngang
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5'], // label ngang
                 datasets: [{
-                    data: [0, 10, 5, 20], // giá trị dọc
+                    data: chartData, // giá trị dọc
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
@@ -219,11 +220,24 @@
                 }
             }
         });
-        // Lắng nghe sự kiện click
-        $('.dropdown').click(function () {
-            // Code xử lý
-            console.log('Dropdown button clicked!');
+        $('.dropdown-item').click(function () {
+            var id = $(this).attr('id');
+
+            $.ajax({
+                url: "/Chart/GetData",
+                method: "POST",
+                data: { id: id },
+                success: function (response) {
+                   var Data1 = response.data1; // gán dữ liệu vào biến
+                    var Data2 = response.data2; // gán dữ liệu vào biến
+                    console.log(Data2);
+                    myChart.data.datasets[0].data = Data1;
+                    myChart.data.labels = Data2;
+                    myChart.update();
+                }
+            });
         });
+        
     </script>
 </body>
 

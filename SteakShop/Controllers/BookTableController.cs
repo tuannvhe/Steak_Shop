@@ -56,14 +56,16 @@ namespace SteakShop.Controllers
 					EventId = selectedEvent,
 					Uid = 1
 				};
+
+                var getEvent = _context.Events.Find(selectedEvent);
                 var notificationData = new
                 {
                     ID = booking.Id,
-                    AlertDate = DateTime.Now.ToString("MMMM d, yyyy"),
+                    AlertDate = DateTime.Now.ToString(),
                     NumberOfPeople = selectedPeople,
-                    BookingDate = bookingDate.ToString("MMMM d, yyyy"),
-                    EventID = selectedEvent,
-                    UserID = 1
+                    BookingDate = bookingDate.ToString("dd-MM-yyyy"),
+                    EventID = getEvent.EventName,
+                    UserID = "Guest"
                 };
 
                 var notificationMessage = JsonConvert.SerializeObject(notificationData);
@@ -81,14 +83,15 @@ namespace SteakShop.Controllers
 					EventId = selectedEvent,
 					Uid = getUser.Id
 				};
+                var getEvent = _context.Events.Find(selectedEvent);
                 var notificationData = new
                 {
                     ID = booking.Id,
-                    AlertDate = DateTime.Now.ToString("MMMM d, yyyy"),
+                    AlertDate = DateTime.Now.ToString(),
                     NumberOfPeople = selectedPeople,
-                    BookingDate = bookingDate.ToString("MMMM d, yyyy"),
-                    EventID = selectedEvent,
-                    UserID = getUser.Id
+                    BookingDate = bookingDate.ToString("dd-MM-yyyy"),
+                    EventID = getEvent.EventName,
+                    UserID = getUser.Username
                 };
 
                 var notificationMessage = JsonConvert.SerializeObject(notificationData);

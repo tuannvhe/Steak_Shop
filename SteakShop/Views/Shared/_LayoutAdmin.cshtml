@@ -147,7 +147,7 @@
                                     Alerts Center
                                 </h6>
                                 <!-- Existing alert items go here -->
-                                <a class="dropdown-item d-flex align-items-center" href="@Url.Action("ManageBookTable", "BookTable")>
+                                <a class="dropdown-item d-flex align-items-center" asp-controller="BookTable" asp-action="ManageBookTable">
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -250,7 +250,7 @@
                     <div>
                         <div class="small text-gray-500">${alertDate}</div>
                         <span class="font-weight-bold">
-                            A new booking has been added. Number of people: ${numberOfPeople}, Date: ${bookingDate}, Event ID: ${eventID}, User ID: ${userID}
+                                    A new booking. Username: ${ userID }, Number of people: ${ numberOfPeople }, Date: ${ bookingDate }, Event ID: ${ eventID }
                         </span>
                     </div>
                 `;

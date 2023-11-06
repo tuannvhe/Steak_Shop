@@ -165,10 +165,7 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-                            </a>
+                            
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
@@ -233,9 +230,7 @@
             var notificationData = JSON.parse(message);
 
             // Kiểm tra các trường dữ liệu
-            if (notificationData && notificationData.ID &&notificationData.AlertDate && notificationData.NumberOfPeople && notificationData.BookingDate && notificationData.EventID && notificationData.UserID) 
-            {
-                var id = notificationData.ID;
+            if (notificationData && notificationData.AlertDate && notificationData.NumberOfPeople && notificationData.BookingDate && notificationData.EventID && notificationData.UserID) {
                 var alertDate = notificationData.AlertDate;
                 var numberOfPeople = notificationData.NumberOfPeople;
                 var bookingDate = notificationData.BookingDate;

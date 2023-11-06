@@ -1,28 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SteakShop.Models;
+using System.Text;
 
 namespace SteakShop.Controllers
 {
     public class BookTableController : Controller
     {
         private readonly Steak_ShopContext _context;
-		private readonly IWebHostEnvironment _environment;
+        private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly IWebHostEnvironment _environment;
+        List<string> notifications = new List<string>();
         public int SelectedEventId { get; set; }
         public int? UserID { get; private set; }
 
-        public BookTableController(Steak_ShopContext context, IWebHostEnvironment environment)
+        public BookTableController(Steak_ShopContext context, IWebHostEnvironment environment, IHubContext<NotificationHub> hubContext)
         {
+            _hubContext = hubContext;
             _context = context;
 			_environment = environment;
         }
-        public IActionResult BookTable()
+        public ActionResult BookTableAsync()
         {
 			var events = _context.Events.ToList();
 			ViewData.Model = events;
 			string Username = HttpContext.Session.GetString("Username");
             var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
+            
             if (getUser == null)
             {
                 return View();
@@ -34,7 +42,7 @@ namespace SteakShop.Controllers
             }
         }
         [HttpPost]
-		public IActionResult SubmitInfo(int selectedPeople, DateTime bookingDate, int selectedEvent)
+		public async Task<IActionResult> SubmitInfoAsync(int selectedPeople, DateTime bookingDate, int selectedEvent)
         {
             var events = _context.Events.Where(e => e.Id == selectedEvent).FirstOrDefault();
 			string Username = HttpContext.Session.GetString("Username");
@@ -48,7 +56,20 @@ namespace SteakShop.Controllers
 					EventId = selectedEvent,
 					Uid = 1
 				};
-				_context.BookTables.Add(booking);
+                var notificationData = new
+                {
+                    ID = booking.Id,
+                    AlertDate = DateTime.Now.ToString("MMMM d, yyyy"),
+                    NumberOfPeople = selectedPeople,
+                    BookingDate = bookingDate.ToString("MMMM d, yyyy"),
+                    EventID = selectedEvent,
+                    UserID = 1
+                };
+
+                var notificationMessage = JsonConvert.SerializeObject(notificationData);
+                var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
+                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
+                _context.BookTables.Add(booking);
 				_context.SaveChanges();
 			}
             else
@@ -60,7 +81,20 @@ namespace SteakShop.Controllers
 					EventId = selectedEvent,
 					Uid = getUser.Id
 				};
-				_context.BookTables.Add(booking);
+                var notificationData = new
+                {
+                    ID = booking.Id,
+                    AlertDate = DateTime.Now.ToString("MMMM d, yyyy"),
+                    NumberOfPeople = selectedPeople,
+                    BookingDate = bookingDate.ToString("MMMM d, yyyy"),
+                    EventID = selectedEvent,
+                    UserID = getUser.Id
+                };
+
+                var notificationMessage = JsonConvert.SerializeObject(notificationData);
+                var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
+                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
+                _context.BookTables.Add(booking);
 				_context.SaveChanges();
 			}		            
 			return RedirectToAction("Index", "Home");

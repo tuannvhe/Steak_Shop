@@ -22,6 +22,8 @@ namespace SteakShop
 				cfg.Cookie.IsEssential = true;
 				cfg.IdleTimeout = new TimeSpan(0, 15, 0);
 			});
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -32,13 +34,16 @@ namespace SteakShop
                 app.UseHsts();
             }
 
+            /**/
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
+            app.UseStaticFiles();            
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseSession();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<NotificationHub>("/notificationHub");
+            });
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");

@@ -38,6 +38,7 @@ namespace SteakShop.Controllers
             DateTime endDate = DateTime.Now;
             var orders = _context.Orders
                 .Include(o => o.UidNavigation)
+                .OrderBy(o => o.Date)
                 .Where(o => o.Date >= startDate && o.Date <= endDate)
                 .ToList();
             ViewData.Model = orders;
@@ -65,6 +66,7 @@ namespace SteakShop.Controllers
                 endDate = DateTime.Now;
                 var orders = _context.Orders
                     .Include(o => o.UidNavigation)
+                    .OrderBy(o => o.Date)
                     .Where(o => o.Date >= startDate && o.Date <= endDate)
                     .ToList();
                 ViewData.Model = orders;
@@ -74,6 +76,7 @@ namespace SteakShop.Controllers
             {
                 var orders1 = _context.Orders
                .Include(o => o.UidNavigation)
+               .OrderBy(o => o.Date)
                .Where(o => o.Date >= startDate.Value && o.Date <= endDate.Value)
                .ToList();
                 ViewData.Model = orders1;

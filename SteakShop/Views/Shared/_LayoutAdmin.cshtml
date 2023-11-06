@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+<!DOCTYPE html>
 <html lang="en">
 @RenderSection("Scripts", required: false)
 <head>
@@ -15,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link rel="stylesheet" href="~/Admin/css/sb-admin-2.min.css" type="text/css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.12/signalr.min.js"></script>
 </head>
 
 <body id="page-top">
@@ -132,112 +134,33 @@
                                 <i class="fas fa-search fa-fw"></i>
                             </a>                           
                         </li>
-
-                        <!-- Nav Item - Alerts -->
+                        <!-- Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
+                                <span class="badge badge-danger badge-counter">0</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Alerts Center
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <!-- Existing alert items go here -->
+                                <a class="dropdown-item d-flex align-items-center" href="@Url.Action("ManageBookTable", "BookTable")>
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
                                         </div>
                                     </div>
                                     <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
+                                        <div class="small text-gray-500" id="alertDate"></div>
+                                        <span class="font-weight-bold" id="notificationMessage"></span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                             </div>
                         </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
+                    
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
@@ -302,7 +225,59 @@
     <!-- Page level custom scripts -->
     <script src="~/Admin/js/demo/chart-area-demo.js"></script>
     <script src="~/Admin/js/demo/chart-pie-demo.js"></script>
+    <script>
+        var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 
+        connection.on("ReceiveNotification", function (message) {
+            // Phân tích thông báo từ JSON
+            var notificationData = JSON.parse(message);
+
+            // Kiểm tra các trường dữ liệu
+            if (notificationData && notificationData.ID &&notificationData.AlertDate && notificationData.NumberOfPeople && notificationData.BookingDate && notificationData.EventID && notificationData.UserID) 
+            {
+                var id = notificationData.ID;
+                var alertDate = notificationData.AlertDate;
+                var numberOfPeople = notificationData.NumberOfPeople;
+                var bookingDate = notificationData.BookingDate;
+                var eventID = notificationData.EventID;
+                var userID = notificationData.UserID;
+
+                // Hiển thị thông tin trong thông báo mới
+                var newAlert = document.createElement("a");
+                newAlert.className = "dropdown-item d-flex align-items-center";
+                newAlert.href = "#";
+                newAlert.innerHTML = `
+                    <div class="mr-3">
+                        <div class="icon-circle bg-primary">
+                            <i class="fas fa-file-alt text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="small text-gray-500">${alertDate}</div>
+                        <span class="font-weight-bold">
+                            A new booking has been added. Number of people: ${numberOfPeople}, Date: ${bookingDate}, Event ID: ${eventID}, User ID: ${userID}
+                        </span>
+                    </div>
+                `;
+
+                // Cập nhật số lượng thông báo
+                var badgeCounter = document.querySelector("#alertsDropdown .badge-counter");
+                if (badgeCounter) {
+                    var currentCount = parseInt(badgeCounter.textContent);
+                    badgeCounter.textContent = (currentCount + 1).toString();
+                }
+
+                // Thêm thông báo mới vào menu
+                var alertsDropdown = document.querySelector("#alertsDropdown");
+                var dropdownMenu = alertsDropdown.nextElementSibling;
+                dropdownMenu.insertBefore(newAlert, dropdownMenu.children[2]);
+            }
+        });
+
+        connection.start().catch(function (err) {
+            console.error(err.toString());
+        });
+    </script>
 </body>
 
 </html>

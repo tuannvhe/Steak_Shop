@@ -52,19 +52,31 @@ namespace SteakShop.Controllers
                 TotalAmount = GetTotal(),
                 Uid = user.Id
             };
+            
+            Notification notification = new Notification
+            {
+                Content = $"A new order. Username: {Username}" +
+                $", Time order: {timeString}" +
+                $", Address: {user.Address}" +
+                $", Total Amount: {GetTotal()}",
+                Date = DateTime.Now,
+                IsRead = 2
+            };
+
             var notificationData = new
             {
                 ID = order.Id,
                 UserID = Username,
-                AlertDate = DateTime.Now.ToString(),
-                OrderDate = currentTime.ToString("dd-MM-yyyy"),
+                AlertDate = DateTime.Now,
+                OrderDate = timeString,
                 Address = user.Address,
                 TotalAmount = GetTotal()
             };
-
             var notificationMessage = JsonConvert.SerializeObject(notificationData);
             var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
             await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
+
+            _context.Add(notification);
             _context.Add(order);
             _context.SaveChanges();
 

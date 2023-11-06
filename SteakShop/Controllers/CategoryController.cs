@@ -19,12 +19,14 @@ namespace SteakShop.Controllers
         // GET: CategoryController
         public ActionResult GetListCategories()
         {
+            Notifications();
             var getListCate = _context.Categories.ToList();
             ViewData.Model = getListCate;
             return View("~/Views/Category/ManageCategory.cshtml");
         }
         public ActionResult Create()
         {
+            Notifications();
             return View();
         }
 
@@ -33,6 +35,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CategoryName,Descriptions")] Category category)
         {
+            Notifications();
             try
             {
                 _context.Add(category);
@@ -48,6 +51,7 @@ namespace SteakShop.Controllers
         // GET: CategoryController/Edit/5
         public async Task <IActionResult> Edit(int? id)
         {
+            Notifications();
             if (id == null || _context.Categories == null)
             {
                 return NotFound();
@@ -65,7 +69,8 @@ namespace SteakShop.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> Edit(int id, [Bind("Id,CategoryName,Descriptions")] Category category)
-        {          
+        {
+            Notifications();
             if (id != category.Id)
             {
                 return NotFound();
@@ -92,6 +97,7 @@ namespace SteakShop.Controllers
         // GET: CategoryController/Delete/5
         public async Task <IActionResult> Delete(int? id)
         {
+            Notifications();
             if (id == null || _context.Categories == null)
             {
                 return NotFound();
@@ -111,6 +117,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> Delete(int id, IFormCollection collection)
         {
+            Notifications();
             if (_context.Categories == null)
             {
                 return Problem("Entity set 'SteakShop.Context.Category'  is null.");
@@ -127,6 +134,14 @@ namespace SteakShop.Controllers
         private bool CateExists(int id)
         {
             return _context.Categories.Any(f => f.Id == id);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

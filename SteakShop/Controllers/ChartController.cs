@@ -13,6 +13,7 @@ namespace SteakShop.Controllers
         private readonly Steak_ShopContext _context;
         public IActionResult Chart()
         {
+            Notifications();
             return View();
         }
         public ChartController(Steak_ShopContext context)
@@ -40,6 +41,7 @@ namespace SteakShop.Controllers
         [HttpPost]
         public IActionResult GetData(int id)
         {
+            Notifications();
             List<DateTime> dt = new List<DateTime>();
             List<decimal> totalAmount = new List<decimal>();
             List<string> formatDt = new List<string>();
@@ -161,6 +163,14 @@ namespace SteakShop.Controllers
                 Data8 = totalFood
             };
             return Json(response);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

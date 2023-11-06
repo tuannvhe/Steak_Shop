@@ -19,6 +19,7 @@ namespace SteakShop.Controllers
 
         public ActionResult Details(int id)
         {
+            Notifications();
             var getDetails = _context.OrdersFoods
                 .Include(o => o.FidNavigation)
                 .Where(o => o.Oid == id)
@@ -34,6 +35,7 @@ namespace SteakShop.Controllers
         }
         public IActionResult ManageOrders()
         {
+            Notifications();
             DateTime startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime endDate = DateTime.Now;
             var orders = _context.Orders
@@ -53,6 +55,7 @@ namespace SteakShop.Controllers
         [HttpGet]
         public IActionResult GetOrdersByDate(DateTime? startDate, DateTime? endDate)
         {
+            Notifications();
             if (startDate > endDate)
             {
                 var emptyList = new List<Order>();
@@ -85,6 +88,13 @@ namespace SteakShop.Controllers
             
             return View("~/Views/Order/ManageOrders.cshtml");
         }
-
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
+        }
     }
 }

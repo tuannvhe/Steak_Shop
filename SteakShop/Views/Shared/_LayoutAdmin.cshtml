@@ -139,25 +139,52 @@
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">0</span>
+                                <span class="badge badge-danger badge-counter">@ViewBag.Count</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                                 <h6 class="dropdown-header">
                                     Alerts Center
-                                </h6>
-                                <!-- Existing alert items go here -->
-                                <a class="dropdown-item d-flex align-items-center" @* asp-controller="Order" asp-action="ManageOrders" *@>
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
+                                </h6> 
+                                @if (true)
+                                {
+                                    <a class="dropdown-item d-flex align-items-center" @* asp-controller="Order" asp-action="ManageOrders" *@>
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-primary">
+                                                <i class="fas fa-file-alt text-white"></i>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500" id="alertDate"></div>
-                                        <span class="font-weight-bold" id="notificationMessage"></span>
-                                    </div>
-                                </a>
+                                        <div>
+                                            <div class="small text-gray-500" id="alertDate"></div>
+                                            <span class="font-weight-bold" id="notificationMessage"></span>
+                                        </div>
+                                    </a>
+                                }
+                              
+                                @{
+                                    var notifications = ViewData["Noti"] as List<Notification>;
+                                }
+                                <ul class="list-unstyled">
+                                    @foreach (var item in notifications.Take(10))
+                                    {
+                                        <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="mr-3">
+                                                <div class="icon-circle bg-primary">
+                                                    <i class="fas fa-file-alt text-white"></i>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="small text-gray-500" >@item.Date</div>
+                                                <span class="font-weight-bold" >@item.Content</span>
+                                            </div>
+                                        </a>
+                                    }
+                                </ul>
+                                @if (notifications.Count() > 10)
+                                {
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-center small text-gray-500" href="#">See All Alerts</a>
+                                }
                             </div>
                         </li>
                     
@@ -230,12 +257,13 @@
             var notificationData = JSON.parse(message);
 
             // Kiểm tra các trường dữ liệu
-            if (notificationData && notificationData.AlertDate && notificationData.Address && notificationData.OrderDate && notificationData.TotalAmount && notificationData.UserID) {
+            if (notificationData 
+                && notificationData.AlertDate 
+                && notificationData.Address 
+                && notificationData.OrderDate 
+                && notificationData.TotalAmount 
+                && notificationData.UserID) {
                 var alertDate = notificationData.AlertDate;
-                /*var numberOfPeople = notificationData.NumberOfPeople;
-                var bookingDate = notificationData.BookingDate;
-                var eventID = notificationData.EventID;
-                var userID = notificationData.UserID;*/
                 var userID = notificationData.UserID;
                 var OrderDate = notificationData.OrderDate;
                 var Address = notificationData.Address;
@@ -255,7 +283,6 @@
                         <div class="small text-gray-500">${alertDate}</div>
                         <span class="font-weight-bold">
                                     A new order. Username: ${ userID }, Time order: ${ OrderDate }, Address: ${ Address }, Total Amount: ${ TotalAmount }</br>
-                                    Go to Order to see new order.
                         </span>
                     </div>
                 `;
@@ -271,6 +298,13 @@
                 var alertsDropdown = document.querySelector("#alertsDropdown");
                 var dropdownMenu = alertsDropdown.nextElementSibling;
                 dropdownMenu.insertBefore(newAlert, dropdownMenu.children[2]);
+                // Thêm thông báo vào container
+                notificationContainer.appendChild(newNotification);
+
+                // Đóng thông báo sau 5 giây
+                setTimeout(function () {
+                    notificationContainer.removeChild(newNotification);
+                }, 5000);
             }
         });
 

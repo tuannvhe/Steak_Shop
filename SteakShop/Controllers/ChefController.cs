@@ -18,18 +18,21 @@ namespace SteakShop.Controllers
 
 		public ActionResult Chef()
         {
+            Notifications();
             var chef = _context.Chefs.Include(c => c.WorkShifts).ToList();
             ViewData.Model = chef;
             return View(chef);
         }
         public ActionResult GetListChefs()
         {
+            Notifications();
             var chef = _context.Chefs.Include(c => c.WorkShifts).ToList();
             ViewData.Model = chef;
             return View("~/Views/Chef/ManageChef.cshtml");
         }
 
         public ActionResult Create(){
+            Notifications();
             return View();
         }
 
@@ -37,6 +40,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Phone,Email,Salary,Certificate")] Chef chef)
         {
+            Notifications();
             try
             {
                 _context.Add(chef);
@@ -51,6 +55,7 @@ namespace SteakShop.Controllers
 
         public async Task<IActionResult> Edit(int ?id)
         {
+            Notifications();
             if (id == null || _context.Chefs == null)
             {
                 return NotFound();
@@ -68,6 +73,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Phone,Salary,Certificate")] Chef chef)
         {
+            Notifications();
             if (id != chef.Id)
             {
                 return NotFound();
@@ -92,6 +98,7 @@ namespace SteakShop.Controllers
         }
         public async Task<IActionResult> Delete(int? id)
         {
+            Notifications();
             if (id == null || _context.Chefs == null)
             {
                 return NotFound();
@@ -111,6 +118,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
+            Notifications();
             if (_context.Chefs == null)
             {
                 return Problem("Entity set 'SteakShop.Context.Chef'  is null.");
@@ -127,6 +135,14 @@ namespace SteakShop.Controllers
         private bool ChefExists(int id)
         {
             return _context.Chefs.Any(f => f.Id == id);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

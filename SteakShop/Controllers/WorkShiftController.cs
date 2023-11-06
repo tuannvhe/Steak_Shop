@@ -19,6 +19,7 @@ namespace SteakShop.Controllers
         // GET: WorkShiftController
         public ActionResult ManageWorkshift()
         {
+            Notifications();
             var getWorkShift = _context.WorkShifts.Include(w => w.Chef).ToList();
             ViewData.Model = getWorkShift;
             return View();
@@ -27,12 +28,14 @@ namespace SteakShop.Controllers
         // GET: WorkShiftController/Details/5
         public ActionResult Details(int id)
         {
+            Notifications();
             return View();
         }
 
         // GET: WorkShiftController/Create
         public IActionResult Create()
         {
+            Notifications();
             var getHoliday = new SelectList(_context.WorkShifts, "Holidays", "Holidays").Distinct();
             var getChef = new SelectList(_context.WorkShifts, "ChefId", "ChefId");
             ViewData["Holiday"] = getHoliday;
@@ -45,6 +48,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> Create([Bind("Id,WorkHours,Shifts,Holidays,ChefId")] WorkShift workShift)
         {
+            Notifications();
             try
             {
                 _context.Add(workShift);
@@ -60,6 +64,7 @@ namespace SteakShop.Controllers
         // GET: WorkShiftController/Edit/5
         public async Task <IActionResult> Edit(int? id)
         {
+            Notifications();
             if (id == null || _context.WorkShifts == null)
             {
                 return NotFound();
@@ -86,6 +91,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,WorkHours,Shifts,Holidays,ChefId")] WorkShift workShift)
         {
+            Notifications();
             if (id != workShift.Id)
             {
                 return NotFound();
@@ -111,6 +117,7 @@ namespace SteakShop.Controllers
             // GET: WorkShiftController/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            Notifications();
             if (id == null || _context.WorkShifts == null)
             {
                 return NotFound();
@@ -130,6 +137,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> Delete(int id, IFormCollection collection)
         {
+            Notifications();
             if (_context.WorkShifts == null)
             {
                 return Problem("Entity set 'SteakShop.Context.WorkShifts'  is null.");
@@ -149,5 +157,13 @@ namespace SteakShop.Controllers
             {
                 return _context.WorkShifts.Any(f => f.Id == id);
             }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
+    }
 }

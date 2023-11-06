@@ -26,7 +26,8 @@ namespace SteakShop.Controllers
         }
         public ActionResult BookTableAsync()
         {
-			var events = _context.Events.ToList();
+            Notifications();
+            var events = _context.Events.ToList();
 			ViewData.Model = events;
 			string Username = HttpContext.Session.GetString("Username");
             var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
@@ -44,6 +45,7 @@ namespace SteakShop.Controllers
         [HttpPost]
 		public async Task<IActionResult> SubmitInfoAsync(int selectedPeople, DateTime bookingDate, int selectedEvent)
         {
+            Notifications();
             var events = _context.Events.Where(e => e.Id == selectedEvent).FirstOrDefault();
 			string Username = HttpContext.Session.GetString("Username");
 			var getUser = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
@@ -103,6 +105,7 @@ namespace SteakShop.Controllers
 			return RedirectToAction("Index", "Home");
         }
         public ActionResult ManageBookTable() {
+            Notifications();
             DateTime today = DateTime.Now.Date;
             var bookedTablesToday = _context.BookTables
                 .Include(o => o.UidNavigation)
@@ -117,6 +120,7 @@ namespace SteakShop.Controllers
         [HttpGet]
         public IActionResult GetBookedTablesByDate(DateTime? startDate, DateTime? endDate)
         {
+            Notifications();
             if (startDate > endDate)
             {
                 var emptyList = new List<BookTable>();
@@ -149,6 +153,14 @@ namespace SteakShop.Controllers
             var getUser = _context.Users.Where(u => u.Username == username).FirstOrDefault();
             if (getUser == null) return NotFound();
             return View(getUser);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

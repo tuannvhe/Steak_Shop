@@ -18,7 +18,8 @@ namespace SteakShop.Controllers
 		}
         public ActionResult Food(int categoryId/*, int? page*/)
 		{
-			List<SelectListItem> categories = new SelectList(_context.Categories, "Id", "CategoryName", categoryId).ToList();
+            Notifications();
+            List<SelectListItem> categories = new SelectList(_context.Categories, "Id", "CategoryName", categoryId).ToList();
 			categories.Insert(0, new SelectListItem { Value = "0", Text = "All" });
 			ViewData["CateIds"] = categories;
            /* if (page == null) page = 1;         
@@ -41,6 +42,7 @@ namespace SteakShop.Controllers
         // GET: FoodController/Details/5
         public ActionResult Details(int id)
         {
+            Notifications();
             var getFood = _context.Foods.Find(id);
             return View(getFood);
         }
@@ -48,6 +50,7 @@ namespace SteakShop.Controllers
         // GET: FoodController/Create
         public ActionResult Create()
         {
+            Notifications();
             ViewData["CateId"] = new SelectList(_context.Categories, "Id", "CategoryName");
             return View();
         }
@@ -57,6 +60,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FoodName,Price,Description,Image,CId")] Food food, IFormFile file)
         {
+            Notifications();
             /*string dir = Path.Combine(_environment.WebRootPath, "Images");
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
@@ -85,6 +89,7 @@ namespace SteakShop.Controllers
         // GET: FoodController/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            Notifications();
             if (id == null || _context.Foods == null)
             {
                 return NotFound();
@@ -105,6 +110,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FoodName,Price,Description,Image,CId")] Food food)
         {
+            Notifications();
             if (id != food.Id)
             {
                 return NotFound();
@@ -133,6 +139,7 @@ namespace SteakShop.Controllers
         // GET: FoodController/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            Notifications();
             if (id == null || _context.Foods == null)
             {
                 return NotFound();
@@ -152,6 +159,7 @@ namespace SteakShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, IFormCollection collection)
         {
+            Notifications();
             if (_context.Foods == null)
             {
                 return Problem("Entity set 'SteakShop.Context.Food'  is null.");
@@ -169,6 +177,14 @@ namespace SteakShop.Controllers
         private bool FoodExists(int id)
         {
             return _context.Foods.Any(f => f.Id == id);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                 .OrderByDescending(o => o.Date)
+                 .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

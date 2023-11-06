@@ -17,6 +17,7 @@ namespace SteakShop.Controllers
         }
         public IActionResult ManageCustomer()
         {
+            Notifications();
             var customerData = _context.Orders
                   .Include(o => o.UidNavigation)
                   .GroupBy(o => o.Uid)
@@ -43,9 +44,18 @@ namespace SteakShop.Controllers
         }
         public ActionResult Information(string username)
         {
+            Notifications();
             var getUser = _context.Users.Where(u => u.Username == username).FirstOrDefault();
             if (getUser == null) return NotFound();
             return View(getUser);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Date)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

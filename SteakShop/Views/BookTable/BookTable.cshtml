@@ -168,12 +168,12 @@
         var popupContent = document.querySelector(".popup-content");
         popupContent.innerHTML = `
                 <span class="close" id="close-popup" onclick="closePopup()">&times;</span>
-                <p>Đặt bàn thành công!</p>
-                <p>Tên khách hàng: ${name}</p>
+                <p>Booking success!</p>
+                <p>Username: ${name}</p>
                 <p>Email: ${email}</p>
-                <p>phone: ${phone}</p>
-                <p>num: ${num}</p>
-                <p>event: ${event}</p>
+                <p>Phone: ${phone}</p>
+                <p>Number Of People: ${num}</p>
+                <p>Event: ${event}</p>
             `;
         setTimeout(function () {
             document.getElementById("myForm").submit();

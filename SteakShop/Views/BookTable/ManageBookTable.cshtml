@@ -2,12 +2,12 @@
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-@model IEnumerable<SteakShop.Models.Order>
+@model IEnumerable<SteakShop.Models.BookTable>
 
 <style>
     #current-time {
         color: DeepPink;
-    }    
+    }
 </style>
 @{
     DateTime currentDateTime = DateTime.Now;
@@ -42,45 +42,36 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Order Manage</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Booked Tables</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <h4 id="current-time">Current Time: </h4>
-                    <form asp-action="GetOrdersByDate" method="get">
+                    <form asp-action="GetBookedTablesByDate" method="get">
                         Select Start Date: <input type="date" name="startDate" id="startDate" min="2000-01-01" />
                         Select End Date: <input type="date" name="endDate" id="endDate" min="2000-01-01" />
                         <button type="submit" class="btn btn-primary">Search</button>
                     </form>
-                    <h5>Total: @Math.Round(ViewBag.TotalAmount, 2) $</h5>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Username</th>
+                                <th>Number Of People</th>
                                 <th>Date</th>
-                                <th>Address</th>
-                                <th>Total Amount</th>
+                                <th>Event</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Username</th>
-                                <th>Date</th>
-                                <th>Address</th>
-                                <th>Total Amount</th>           
-                                <th>Action</th>
-                        </tfoot>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
                                     <td>@item.UidNavigation?.Username</td>
+                                    <td>@item.NumberOfPeople</td>
                                     <td>@item.Date.ToShortDateString()</td>
-                                    <td>@item.Address</td>
-                                    <td>@Math.Round(item.TotalAmount, 2)$</td>
+                                    <td>@item.Event.EventName</td>
                                     <td>
-                                        <a href="@Url.Action("Details", "Order", new { id = item.Id })" class="btn btn-primary">Details</a>
+                                        <a href="@Url.Action("Information", "BookTable", new { username = item.UidNavigation.Username })" class="btn btn-primary">Details</a>
                                     </td>
                                 </tr>
                             }
@@ -106,7 +97,7 @@
             var hours = currentDateTime.getHours().toString().padStart(2, '0');
             var minutes = currentDateTime.getMinutes().toString().padStart(2, '0');
             var seconds = currentDateTime.getSeconds().toString().padStart(2, '0');
-            currentTimeSpan.innerHTML = "Current Time: " +day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
+            currentTimeSpan.innerHTML = "Current Time: " + day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":" + seconds;
         }
     }
 

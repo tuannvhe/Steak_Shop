@@ -58,45 +58,96 @@ namespace SteakShop.Controllers
         }
 
         // GET: WorkShiftController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task <IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null || _context.WorkShifts == null)
+            {
+                return NotFound();
+            }
+
+            var getHoliday = new SelectList(_context.WorkShifts, "Holidays", "Holidays").Distinct();
+            var getChef = new SelectList(_context.WorkShifts, "ChefId", "ChefId");
+            ViewData["Holiday"] = getHoliday;
+            ViewData["Chef"] = getChef;
+
+            var workShift = await _context.WorkShifts
+                .Include(w => w.Chef)
+                .Where(w => w.Id == id)
+                .FirstOrDefaultAsync();
+            if (workShift == null)
+            {
+                return NotFound();
+            }
+            return View(workShift);
         }
 
         // POST: WorkShiftController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,WorkHours,Shifts,Holidays,ChefId")] WorkShift workShift)
         {
+            if (id != workShift.Id)
+            {
+                return NotFound();
+            }
             try
             {
-                return RedirectToAction(nameof(Index));
+                _context.Update(workShift);
+                await _context.SaveChangesAsync();
             }
-            catch
+            catch (DbUpdateConcurrencyException)
             {
-                return View();
+                if (!WorkShiftsExists(workShift.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
             }
+            return RedirectToAction(nameof(ManageWorkshift));
         }
-
-        // GET: WorkShiftController/Delete/5
-        public ActionResult Delete(int id)
+            // GET: WorkShiftController/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null || _context.WorkShifts == null)
+            {
+                return NotFound();
+            }
+
+            var workShift = await _context.WorkShifts
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (workShift == null)
+            {
+                return NotFound();
+            }
+            return View(workShift);
         }
 
         // POST: WorkShiftController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task <IActionResult> Delete(int id, IFormCollection collection)
         {
-            try
+            if (_context.WorkShifts == null)
             {
-                return RedirectToAction(nameof(Index));
+                return Problem("Entity set 'SteakShop.Context.WorkShifts'  is null.");
             }
-            catch
+            var workShift = await _context.WorkShifts
+                .Include(w => w.Chef)
+                .Where(w => w.Id == id).FirstOrDefaultAsync();
+            if (workShift != null)
             {
-                return View();
+                _context.WorkShifts.Remove(workShift);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ManageWorkshift));
+        }
+            private bool WorkShiftsExists(int id)
+            {
+                return _context.WorkShifts.Any(f => f.Id == id);
             }
         }
-    }
 }

@@ -16,7 +16,7 @@ namespace SteakShop.Controllers
             _environment = environment;
         }
 
-		public async Task<IActionResult> Chef()
+		public ActionResult Chef()
         {
             var chef = _context.Chefs.Include(c => c.WorkShifts).ToList();
             ViewData.Model = chef;
@@ -29,13 +29,7 @@ namespace SteakShop.Controllers
             return View("~/Views/Chef/ManageChef.cshtml");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> GetWorkShiftById(int id)
-        {
-            List<WorkShift> workShift = _context.WorkShifts.Where(w => w.Id == id).ToList();
-            return View(workShift);
-        }
-        public async Task<IActionResult> Create(){
+        public ActionResult Create(){
             return View();
         }
 
@@ -55,7 +49,7 @@ namespace SteakShop.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int ?id)
         {
             if (id == null || _context.Chefs == null)
             {
@@ -96,7 +90,7 @@ namespace SteakShop.Controllers
             }
             return RedirectToAction(nameof(GetListChefs));
         }
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Chefs == null)
             {

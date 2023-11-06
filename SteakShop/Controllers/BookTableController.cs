@@ -65,5 +65,53 @@ namespace SteakShop.Controllers
 			}		            
 			return RedirectToAction("Index", "Home");
         }
+        public ActionResult ManageBookTable() {
+            DateTime today = DateTime.Now.Date;
+            var bookedTablesToday = _context.BookTables
+                .Include(o => o.UidNavigation)
+                .Include(o => o.Event)
+                .Where(o => o.Date >= today && o.Date <= today.AddDays(1).AddTicks(-1)) // Lọc chỉ những bản ghi trong ngày hôm nay
+                .ToList();
+
+            ViewData.Model = bookedTablesToday;
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetBookedTablesByDate(DateTime? startDate, DateTime? endDate)
+        {
+            if (startDate > endDate)
+            {
+                var emptyList = new List<BookTable>();
+                ViewData.Model = emptyList;
+            }
+            else if (startDate == null || endDate == null)
+            {
+                DateTime today = DateTime.Now.Date;
+                var bookedTablesToday = _context.BookTables
+                    .Include(o => o.UidNavigation)
+                    .Include(o => o.Event)
+                    .Where(o => o.Date >= today && o.Date <= today.AddDays(1).AddTicks(-1))
+                    .ToList();
+
+                ViewData.Model = bookedTablesToday;
+            }
+            else
+            {
+                var orders1 = _context.BookTables
+               .Include(o => o.UidNavigation)
+               .Include(o => o.Event)
+               .Where(o => o.Date >= startDate.Value && o.Date <= endDate.Value)
+               .ToList();
+                ViewData.Model = orders1;
+            }
+            return View("~/Views/BookTable/ManageBookTable.cshtml");
+        }
+        public ActionResult Information(string username)
+        {
+            var getUser = _context.Users.Where(u => u.Username == username).FirstOrDefault();
+            if (getUser == null) return NotFound();
+            return View(getUser);
+        }
     }
 }

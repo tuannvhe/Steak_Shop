@@ -23,15 +23,7 @@ namespace SteakShop.Controllers
             ViewData.Model = getListCate;
             return View("~/Views/Category/ManageCategory.cshtml");
         }
-
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: CategoryController/Create
-        public async Task <IActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
@@ -54,7 +46,7 @@ namespace SteakShop.Controllers
         }
 
         // GET: CategoryController/Edit/5
-        public async Task <IActionResult> Edit(int id)
+        public async Task <IActionResult> Edit(int? id)
         {
             if (id == null || _context.Categories == null)
             {
@@ -98,7 +90,7 @@ namespace SteakShop.Controllers
         }
 
         // GET: CategoryController/Delete/5
-        public async Task <IActionResult> Delete(int id)
+        public async Task <IActionResult> Delete(int? id)
         {
             if (id == null || _context.Categories == null)
             {

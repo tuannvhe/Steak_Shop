@@ -24,8 +24,12 @@ namespace SteakShop.Controllers
                 .Where(o => o.Oid == id)
                 .ToList();
             var listOrders = _context.Orders.Where(o => o.Id == id).ToList();
+            var getUsername = _context.Orders.Include(o => o.UidNavigation).Where(o => o.Id == id).FirstOrDefault();
+
             ViewData.Model = getDetails;
             ViewData["TotalAmount"] = GetTotal(listOrders);
+            ViewData["Username"] = getUsername?.UidNavigation?.Username;
+
             return View();
         }
         public IActionResult ManageOrders()

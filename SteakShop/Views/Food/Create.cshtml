@@ -36,7 +36,6 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
                 <input type="file" name="file" class="form-control" />
             </div> 
@@ -49,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-action="GetListFood">Back to List</a>
+    <a asp-action="GetListFood" class="btn btn-primary">Back to List</a>
 </div>
 
 @section Scripts {

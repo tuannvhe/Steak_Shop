@@ -50,6 +50,12 @@
                     <span>Orders</span>
                 </a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.Action("ManageBookTable", "BookTable")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Booked Tables</span>
+                </a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
             <li class="nav-item">
@@ -58,6 +64,12 @@
 
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Analysis</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="ManageCustomer">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Customer</span>
                 </a>
             </li>
             <li class="nav-item">

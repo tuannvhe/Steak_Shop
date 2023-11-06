@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
-using X.PagedList;
 
 namespace SteakShop.Controllers
 {
@@ -17,7 +16,7 @@ namespace SteakShop.Controllers
 			_context = context;
 			_environment = environment;
 		}
-        public async Task<IActionResult> Food(int categoryId/*, int? page*/)
+        public ActionResult Food(int categoryId/*, int? page*/)
 		{
 			List<SelectListItem> categories = new SelectList(_context.Categories, "Id", "CategoryName", categoryId).ToList();
 			categories.Insert(0, new SelectListItem { Value = "0", Text = "All" });
@@ -30,7 +29,7 @@ namespace SteakShop.Controllers
                 .ToList();
                 /*.ToPagedList(pageNumber, pageSize);*/
 
-            return View(await foods.ToListAsync());
+            return View(foods.ToList());
 		}
         public ActionResult GetListFood()
         {
@@ -84,7 +83,7 @@ namespace SteakShop.Controllers
         }
 
         // GET: FoodController/Edit/5
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Foods == null)
             {
@@ -132,7 +131,7 @@ namespace SteakShop.Controllers
         }
 
         // GET: FoodController/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Foods == null)
             {

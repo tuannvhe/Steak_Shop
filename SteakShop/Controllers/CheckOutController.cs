@@ -59,7 +59,7 @@ namespace SteakShop.Controllers
                 $", Time order: {timeString}" +
                 $", Address: {user.Address}" +
                 $", Total Amount: {GetTotal()}",
-                Date = DateTime.Now,
+                Date = datetime,
                 IsRead = 2
             };
 

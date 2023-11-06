@@ -150,6 +150,7 @@ namespace SteakShop.Controllers
         }
         public ActionResult Information(string username)
         {
+            Notifications();
             var getUser = _context.Users.Where(u => u.Username == username).FirstOrDefault();
             if (getUser == null) return NotFound();
             return View(getUser);
@@ -157,7 +158,7 @@ namespace SteakShop.Controllers
         public void Notifications()
         {
             var notifications = _context.Notifications
-                .OrderByDescending(o => o.Date)
+                .OrderByDescending(o => o.Id)
                 .ToList();
             ViewData["Noti"] = notifications;
             ViewData["Count"] = notifications.Count;

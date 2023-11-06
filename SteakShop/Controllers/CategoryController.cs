@@ -138,7 +138,7 @@ namespace SteakShop.Controllers
         public void Notifications()
         {
             var notifications = _context.Notifications
-                .OrderByDescending(o => o.Date)
+                .OrderByDescending(o => o.Id)
                 .ToList();
             ViewData["Noti"] = notifications;
             ViewData["Count"] = notifications.Count;

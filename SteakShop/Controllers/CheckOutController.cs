@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SteakShop.Models;
 using System.Globalization;
 
@@ -34,7 +36,7 @@ namespace SteakShop.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CompletePayment() {
+        public async Task<IActionResult> CompletePaymentAsync() {
 
             string Username = HttpContext.Session.GetString("Username");
             var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();
@@ -50,6 +52,19 @@ namespace SteakShop.Controllers
                 TotalAmount = GetTotal(),
                 Uid = user.Id
             };
+            var notificationData = new
+            {
+                ID = order.Id,
+                UserID = Username,
+                AlertDate = DateTime.Now.ToString(),
+                OrderDate = currentTime.ToString("dd-MM-yyyy"),
+                Address = user.Address,
+                TotalAmount = GetTotal()
+            };
+
+            var notificationMessage = JsonConvert.SerializeObject(notificationData);
+            var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
+            await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
             _context.Add(order);
             _context.SaveChanges();
 

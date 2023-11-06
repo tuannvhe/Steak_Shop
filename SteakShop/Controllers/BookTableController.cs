@@ -57,7 +57,7 @@ namespace SteakShop.Controllers
 					Uid = 1
 				};
 
-                var getEvent = _context.Events.Find(selectedEvent);
+                /*var getEvent = _context.Events.Find(selectedEvent);
                 var notificationData = new
                 {
                     ID = booking.Id,
@@ -70,7 +70,7 @@ namespace SteakShop.Controllers
 
                 var notificationMessage = JsonConvert.SerializeObject(notificationData);
                 var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
-                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
+                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);*/
                 _context.BookTables.Add(booking);
 				_context.SaveChanges();
 			}
@@ -83,7 +83,7 @@ namespace SteakShop.Controllers
 					EventId = selectedEvent,
 					Uid = getUser.Id
 				};
-                var getEvent = _context.Events.Find(selectedEvent);
+                /*var getEvent = _context.Events.Find(selectedEvent);
                 var notificationData = new
                 {
                     ID = booking.Id,
@@ -96,7 +96,7 @@ namespace SteakShop.Controllers
 
                 var notificationMessage = JsonConvert.SerializeObject(notificationData);
                 var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
-                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
+                await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);*/
                 _context.BookTables.Add(booking);
 				_context.SaveChanges();
 			}		            

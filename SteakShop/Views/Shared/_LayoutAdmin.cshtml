@@ -147,7 +147,7 @@
                                     Alerts Center
                                 </h6>
                                 <!-- Existing alert items go here -->
-                                <a class="dropdown-item d-flex align-items-center" asp-controller="BookTable" asp-action="ManageBookTable">
+                                <a class="dropdown-item d-flex align-items-center" @* asp-controller="Order" asp-action="ManageOrders" *@>
                                     <div class="mr-3">
                                         <div class="icon-circle bg-primary">
                                             <i class="fas fa-file-alt text-white"></i>
@@ -230,12 +230,16 @@
             var notificationData = JSON.parse(message);
 
             // Kiểm tra các trường dữ liệu
-            if (notificationData && notificationData.AlertDate && notificationData.NumberOfPeople && notificationData.BookingDate && notificationData.EventID && notificationData.UserID) {
+            if (notificationData && notificationData.AlertDate && notificationData.Address && notificationData.OrderDate && notificationData.TotalAmount && notificationData.UserID) {
                 var alertDate = notificationData.AlertDate;
-                var numberOfPeople = notificationData.NumberOfPeople;
+                /*var numberOfPeople = notificationData.NumberOfPeople;
                 var bookingDate = notificationData.BookingDate;
                 var eventID = notificationData.EventID;
+                var userID = notificationData.UserID;*/
                 var userID = notificationData.UserID;
+                var OrderDate = notificationData.OrderDate;
+                var Address = notificationData.Address;
+                var TotalAmount = notificationData.TotalAmount;
 
                 // Hiển thị thông tin trong thông báo mới
                 var newAlert = document.createElement("a");
@@ -250,7 +254,8 @@
                     <div>
                         <div class="small text-gray-500">${alertDate}</div>
                         <span class="font-weight-bold">
-                                    A new booking. Username: ${ userID }, Number of people: ${ numberOfPeople }, Date: ${ bookingDate }, Event ID: ${ eventID }
+                                    A new order. Username: ${ userID }, Time order: ${ OrderDate }, Address: ${ Address }, Total Amount: ${ TotalAmount }</br>
+                                    Go to Order to see new order.
                         </span>
                     </div>
                 `;

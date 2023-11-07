@@ -29,10 +29,12 @@ namespace SteakShop.Models
         public virtual DbSet<ContactU> ContactUs { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<Food> Foods { get; set; } = null!;
+        public virtual DbSet<MarketingBudget> MarketingBudgets { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrdersChef> OrdersChefs { get; set; } = null!;
         public virtual DbSet<OrdersFood> OrdersFoods { get; set; } = null!;
+        public virtual DbSet<ScheduleMarketing> ScheduleMarketings { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<WorkShift> WorkShifts { get; set; } = null!;
 
@@ -242,9 +244,18 @@ namespace SteakShop.Models
                     .HasConstraintName("FK_Foods_Categories");
             });
 
+            modelBuilder.Entity<MarketingBudget>(entity =>
+            {
+                entity.ToTable("MarketingBudget");
+
+                entity.Property(e => e.Budget).HasColumnType("money");
+
+                entity.Property(e => e.Type).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<Notification>(entity =>
             {
-                entity.Property(e => e.Date).HasColumnType("date");
+                entity.Property(e => e.Date).HasPrecision(1);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -307,6 +318,25 @@ namespace SteakShop.Models
                     .HasForeignKey(d => d.Oid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Foods_Orders");
+            });
+
+            modelBuilder.Entity<ScheduleMarketing>(entity =>
+            {
+                entity.ToTable("ScheduleMarketing");
+
+                entity.Property(e => e.CashReceive).HasColumnType("money");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.IdMb).HasColumnName("Id_MB");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.HasOne(d => d.IdMbNavigation)
+                    .WithMany(p => p.ScheduleMarketings)
+                    .HasForeignKey(d => d.IdMb)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ScheduleMarketing_MarketingBudget");
             });
 
             modelBuilder.Entity<User>(entity =>

@@ -21,6 +21,7 @@ namespace SteakShop.Models
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public string Address { get; set; } = null!;
+        public int? NumberOfLogins { get; set; }
 
         public virtual ICollection<Blog> Blogs { get; set; }
         public virtual ICollection<BookTable> BookTables { get; set; }

@@ -65,8 +65,4 @@
 
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Blog\" />
-  </ItemGroup>
-
 </Project>

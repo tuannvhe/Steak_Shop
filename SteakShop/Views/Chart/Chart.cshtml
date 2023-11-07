@@ -211,6 +211,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
+        $('.dropdown-item').click(function () {
+
+            // Lấy nội dung của dropdown item
+            var itemContent = $(this).html();
+
+            // Thay đổi nội dung của button
+            $('.dropdown-toggle').html(itemContent);
+
+        });
         // var chartData = @Html.Raw(Json.Serialize(ViewData["ChartData"]));
         // var bigData = @Html.Raw(Json.Serialize(ViewData["bigData"]));
         var chartData = [0, 10, 20, 30 , 40];

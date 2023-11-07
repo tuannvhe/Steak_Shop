@@ -1,0 +1,165 @@
+﻿@{
+    ViewData["Title"] = "SingleBlog";
+
+}
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@model SteakShop.Models.DTO.BlogViewDTO
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area section_gap">   
+    <div class="container">
+        <form asp-action="Blog" asp-controller="Blog">
+            <input type="submit"  class="btn btn-primary" value="Back To Blogs" />
+        </form>
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post row">
+                    <div class="col-lg-12">
+                        <div class="feature-img">
+                            @* <img class="img-fluid" src="~/SteakShop/img/blog/feature-img1.jpg" alt=""> *@
+                        </div>
+                    </div>
+                    <div class="col-lg-3  col-md-3">
+                        <div class="blog_info text-right">
+                            <div class="post_tag">
+                                @foreach (var cate in Model.Categories.Where(c => c.Bid == @Model.SingleBlog.Id))
+                                {
+                                    <a href="@Url.Action("GetBlogsByCate", "Blog", new { categoryId = cate.Id })">@cate.CidNavigation.CategoryName,</a>
+                                }
+                            </div>
+                            <ul class="blog_meta list">
+                                <li><a>@Model.SingleBlog.UidNavigation.Name<i class="lnr lnr-user"></i></a></li>
+                                <li><a>@Model.SingleBlog.Date<i class="lnr lnr-calendar-full"></i></a></li>
+                                <li><a>@Model.Comments.Where(c => c.Bid == Model.SingleBlog.Id).Count() comments<i class="lnr lnr-bubble"></i></a></li>
+                            </ul>
+                            <ul class="social-links">
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-github"></i></a></li>
+                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 col-md-9 blog_details">
+                        <h2>@Model.SingleBlog.BlogTitle</h2>
+                        <p class="excert">
+                            @Model.SingleBlog.BlogDetails
+                        </p>
+                        <p>
+                            @Model.SingleBlog.Content
+                        </p>
+                        
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="quotes">
+                            @Model.SingleBlog.BlogDetails
+                        </div>
+                        <div class="row">
+                            @* <div class="col-6">
+                                <img class="img-fluid" src="img/blog/post-img1.jpg" alt="">
+                            </div>
+                            <div class="col-6">
+                                <img class="img-fluid" src="img/blog/post-img2.jpg" alt="">
+                            </div> *@
+                            <div class="col-lg-12 mt-25">
+                                <p>
+                                    @Model.SingleBlog.Content
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>             
+                <div class="comments-area">
+                    <h4>@Model.Comments.Where(c => c.Bid == Model.SingleBlog.Id).Count() comments</h4>
+                    @foreach (var item in @Model.Comments
+                    .Where(c => c.Bid == Model.SingleBlog.Id)
+                    .OrderByDescending(c => c.Id)
+                    .ToList())
+                    {
+                        <div class="comment-list">
+                            <div class="single-comment justify-content-between d-flex">
+                                <div class="user justify-content-between d-flex">
+                                    <div class="thumb">
+                                        @* <img src="~/SteakShop/img/blog/c1.jpg" alt=""> *@
+                                    </div>
+                                    <div class="desc">
+                                        <h5><a href="#">@item.Name</a></h5>
+                                        <p class="date">@item.Date</p>
+                                        <p class="comment">
+                                            @item.Message
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @* <div class="comment-list left-padding">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="img/blog/c2.jpg" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5><a href="#">Elsie Cunningham</a></h5>
+                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                    <p class="comment">
+                                        Never say goodbye till the end comes!
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="reply-btn">
+                                <a href="" class="btn-reply text-uppercase">reply</a>
+                            </div>
+                        </div>
+                    </div> *@
+                    
+                <div class="comment-form">
+                    <h4>Leave a Reply</h4>
+                        <form asp-action="Comment" asp-controller="SingleBlog" method="post">
+                            <input type="hidden" asp-for="@Model.SingleBlog.Id" />
+                            @{
+                                var user = ViewData["User"] as User;
+                            }
+                        @if (user == null)
+                            {
+                                <div class="form-group form-inline">
+                                    <div class="form-group col-lg-6 col-md-6 name">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 email">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group form-inline">
+                                    <div class="form-group col-lg-6 col-md-6 name">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'" value="@user.Name">
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 email">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address"
+                                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" value=" @user.Email">
+                                    </div>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <textarea class="form-control mb-10" rows="5" id="message" name="message" placeholder="Messege"
+                                      onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
+                            </div>
+                        <div class="form-group">
+                             <input type="submit" value="Comment" class="primary-btn" />
+                        </div>
+                    </form>
+                </div>
+                    <form asp-action="Blog" asp-controller="Blog">
+                        <input type="submit" class="btn btn-primary" value="Back To Blogs" />
+                    </form>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->

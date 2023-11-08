@@ -1,5 +1,205 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using SteakShop.Models.DTO;
+
 @{
+    ViewData["Title"] = "Blog";
+   
 }
+@model SteakShop.Models.DTO.BlogViewDTO
+<!--================Blog Categorie Area =================-->
+<section class="blog_categorie_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="categories_post">
+                    <img src="~/SteakShop/img/blog/cat-post/cat-post-3.jpg" alt="post">
+                    <div class="categories_details">
+                        <div class="categories_text">
+                            <a href="blog-details.html">
+                                <h5>Social Life</h5>
+                            </a>
+                            <div class="border_line"></div>
+                            <p>Enjoy your social life together</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="categories_post">
+                    <img src="~/SteakShop/img/blog/cat-post/cat-post-2.jpg" alt="post">
+                    <div class="categories_details">
+                        <div class="categories_text">
+                            <a href="blog-details.html">
+                                <h5>Politics</h5>
+                            </a>
+                            <div class="border_line"></div>
+                            <p>Be a part of politics</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="categories_post">
+                    <img src="~/SteakShop/img/blog/cat-post/cat-post-1.jpg" alt="post">
+                    <div class="categories_details">
+                        <div class="categories_text">
+                            <a href="blog-details.html">
+                                <h5>Food</h5>
+                            </a>
+                            <div class="border_line"></div>
+                            <p>Let the food be finished</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Categorie Area =================-->
+<!--================Blog Area =================-->
+<section class="blog_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="blog_left_sidebar">
+                    @if (Model.Blogs != null && Model.Blogs.Any())
+                    {
+                        @foreach (var item in Model.Blogs)
+                        {
+                            <article class="row blog_item">
+                                <div class="col-md-3">
+                                    <div class="blog_info text-right">
+                                        <div class="post_tag">
+                                            @foreach (var cate in Model.Categories.Where(c => c.Bid == item.Id))
+                                            {
+                                                <a @* href="@Url.Action("GetBlogsByCate", "Blog", new { categoryId = cate.Id })" *@>@cate.CidNavigation.CategoryName,</a>
+                                            }
+                                        </div>
+
+                                        <ul class="blog_meta list">
+                                            <li><a>@item.UidNavigation.Name<i class="lnr lnr-user"></i></a></li>
+                                            <li><a>@item.Date<i class="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="@Url.Action("SingleBlog", "SingleBlog", new { Id = item.Id })">@Model.Comments.Where(c => c.Bid == item.Id).Count() comments<i class="lnr lnr-bubble"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="blog_post">
+                                        @* <img src="@Model.BlogImages.Where(b => b.Bid == item.Id).Take(1).Last()" alt=""> *@
+                                        <div class="blog_details">
+                                            <a href="@Url.Action("SingleBlog", "SingleBlog", new { Id = item.Id })">
+                                                <h2>@item.BlogTitle</h2>
+                                            </a>
+                                            <p>
+                                                @item.BlogDetails
+                                            </p>
+                                            <a href="@Url.Action("SingleBlog", "SingleBlog", new { Id = item.Id })" class="blog_btn">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    }
+                    else
+                    {
+                        @* @foreach (var item in Model.Categories)
+                        {
+                            <article class="row blog_item">
+                                <div class="col-md-3">
+                                    <div class="blog_info text-right">
+                                        <div class="post_tag">
+                                            @foreach (var cate in Model.Categories.Where(c => c.Bid == item.Id))
+                                            {
+                                                <a href="@Url.Action("GetBlogsByCate", "Blog", new { categoryId = cate.Id })">@cate.CidNavigation.CategoryName,</a>
+                                            }
+                                        </div>
+                                        
+                                        <ul class="blog_meta list">
+                                            <li><a>@item.BidNavigation.UidNavigation.Name<i class="lnr lnr-user"></i></a></li>
+                                            <li><a>@item.BidNavigation.Date<i class="lnr lnr-calendar-full"></i></a></li>
+                                            <li><a href="#">@Model.Comments.Where(c => c.Bid == item.Id).Count() comments<i class="lnr lnr-bubble"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="blog_post">
+                                        <img src="~/SteakShop/img/blog/main-blog/m-blog-1.jpg" alt="">
+                                        <div class="blog_details">
+                                            <a href="single-blog.html">
+                                                <h2>@item.BidNavigation.BlogTitle</h2>
+                                            </a>
+                                            <p>
+                                                @item.BidNavigation.BlogDetails
+                                            </p>
+                                            <a href="SingleBlog.chtml" class="blog_btn">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        } *@
+                        <a>Not Found</a>
+                    }  
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form asp-action="Search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search Posts" name="searchKeyword">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                </span>
+                            </div><!-- /input-group -->
+                        </form>
+                        <div class="br"></div>
+                    </aside>
+                    <aside class="single_sidebar_widget author_widget">
+                        <h2>Latest Post</h2>
+                        <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
+                        
+                        <h4>@Model.Blogs.Last().UidNavigation.Name</h4>
+                        <p>@Model.Blogs.Last().BlogTitle</p>
+                        @* <div class="social_icon">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-github"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div> *@
+                        <p>
+                            @Model.Blogs.Last().BlogDetails
+                        </p>
+                        <div class="br"></div>
+                    </aside>
+                   
+                    <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Post Catgories</h4>
+                        <ul class="list cat-list">    
+                            
+                            @foreach (var item in Model.BlogCategories)
+                            {
+                                <li>
+                                    <a class="d-flex justify-content-between">
+                                        <p>@item.CategoryName</p>
+                                        @* <p>@item.</p> *@
+                                    </a>
+                                </li>
+                            }
+                                                    
+                        </ul>
+                        <div class="br"></div>
+                    </aside>
+                    @* <aside class="single-sidebar-widget tag_cloud_widget">
+                        <h4 class="widget_title">Tag Clouds</h4>
+                        <ul class="list">
+                            @foreach (var item in Model.BlogCategories)
+                            {
+                                <li><a href="#">@item.CategoryName</a></li>
+                            }
+                        </ul>
+                    </aside> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->

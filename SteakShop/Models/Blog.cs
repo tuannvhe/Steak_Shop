@@ -19,7 +19,8 @@ namespace SteakShop.Models
         public string Content { get; set; } = null!;
         public int Uid { get; set; }
         public int? Cid { get; set; }
-
+       /* public string NormalizedDetails { get; set; }
+        public string NormalizedTitle { get; set; }*/
         public virtual User UidNavigation { get; set; } = null!;
         public virtual ICollection<BlogImage> BlogImages { get; set; }
         public virtual ICollection<BlogsCategory> BlogsCategories { get; set; }

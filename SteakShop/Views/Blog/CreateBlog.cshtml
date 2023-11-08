@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "CreateBlog";
+}
+@using SteakShop.Models.DTO;
+@model SteakShop.Models.DTO.BlogViewDTO
+@{
+    var user = ViewData["User"] as User;
+}
+
+<section class="blog_area single-post-area section_gap">
+    <div class="container">
+        <div class="row">         
+                    <div class="comment-form">
+                        <h4>Leave a Reply</h4>
+                <form asp-action="CreateBlog" asp-controller="SingleBlog" method="post">
+                    <div class="form-group form-inline">
+                        <div class="form-group col-lg-6 col-md-6 name">
+                            <input type="text" class="form-control" id="BlogTitle" name="BlogTitle" placeholder="Enter Blog Title"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Blog Title'">
+                        </div>
+                                    </br>
+                        <div class="form-group col-lg-6 col-md-6 name">
+                            <input type="text" class="form-control" id="BlogDetails" name="BlogDetails" placeholder="Enter Blog Details"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Blog Details'">
+                        </div>
+                        </br>
+                            <div class="form-group col-lg-6 col-md-6 name">
+                                <input type="text" class="form-control"
+                                       onfocus="this.placeholder = ''" value="@user.Name" readonly="readonly">
+                            <input id="uid" name="uid" type="hidden" value="@user.Id" />
+                            </div>
+                        </br>
+                            <div class="form-group col-lg-6 col-md-6 name">
+
+                            @foreach (var item in ViewBag.CateIds)
+                                {
+                                <label>
+                                    <input type="checkbox" name="SelectedCategories" value="@item.Id" />
+                                    @item.CategoryName
+                                </label>
+                                }
+                            </div>
+                                </div>
+                            <div class="form-group">
+                        <textarea id="Content" name="Content" class="form-control mb-10" rows="5" placeholder="Content"
+                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Content'" required=""></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Create" class="primary-btn" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+</section>
+<!--================Blog Area =================-->

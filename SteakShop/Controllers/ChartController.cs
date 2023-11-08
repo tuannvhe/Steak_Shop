@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
 using System;
 using System.Globalization;
+using System.Linq;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace SteakShop.Controllers
@@ -43,14 +44,19 @@ namespace SteakShop.Controllers
         {
             Notifications();
             List<DateTime> dt = new List<DateTime>();
+            List<DateTime> dtCmt = new List<DateTime>();
             List<decimal> totalAmount = new List<decimal>();
             List<string> formatDt = new List<string>();
+            List<string> formatDtCmt = new List<string>();
             List<int> months = new List<int>();
             List<int> years = new List<int>();
             List<int> numOfOrder = new List<int>();
             List<string> lstFood = new List<string>();
             List<int> fquantity = new List<int>();
-
+            List<int> numOfComment = new List<int>();
+            List<string> UserName = new List<string>(); 
+            List<int> LoginCount = new List<int>(); 
+            decimal LoginRating = 0;
             decimal totalRevenue = 0;
             var totalOrder = 0;
             var totalFood = 0;
@@ -68,7 +74,13 @@ namespace SteakShop.Controllers
                 Data5 = fquantity.ToArray(),
                 Data6 = totalRevenue,
                 Data7 = totalOrder,
-                Data8 = totalFood
+                Data8 = totalFood,
+                Data9 = numOfComment.ToArray(),
+                Data10 = numOfComment.Count,
+                Data11 = formatDtCmt.ToArray(),
+                Data12 = LoginCount.ToArray(),
+                Data13 = UserName.ToArray(),    
+                Data14 = LoginRating.ToString()
             };
             if (id == 1)
             {
@@ -109,6 +121,10 @@ namespace SteakShop.Controllers
                 fromYear = today.AddYears(-1);
             }
             var datetime = _context.Orders.Where(o => o.Date >= fromDate && o.Date <= today).ToList();
+            var dtComment = _context.Comments.Where(o => o.Date >= fromDate && o.Date <= today).ToList();
+            var user = _context.Users.ToList();
+            var userLogin2 = _context.Users.Where(o => o.NumberOfLogins >= 2).ToList();
+            LoginRating = (decimal)userLogin2.Count / (decimal)user.Count * 100;
             totalRevenue = datetime.Sum(o => o.TotalAmount);
             totalOrder = datetime.Count;
             if (fromMonth.Month != today.Month)
@@ -118,6 +134,25 @@ namespace SteakShop.Controllers
             if (fromYear.Year != today.Year)
             {
                 datetime = _context.Orders.Where(o => o.Date >= fromYear && o.Date <= today).ToList();
+
+            }
+            foreach (var u in user)
+            {
+
+                UserName.Add(u.Name);
+                LoginCount.Add((int)u.NumberOfLogins);
+            }
+            foreach (var x in dtComment)
+            {
+                if (!dtCmt.Contains(x.Date))
+                {
+                    dtCmt.Add(x.Date);
+                    numOfComment.Add(1);
+                }
+                else
+                {
+                    numOfComment[numOfComment.Count - 1]++;
+                }
             }
             foreach (var order in datetime)
             {
@@ -127,7 +162,7 @@ namespace SteakShop.Controllers
                     dt.Add(order.Date);
                     totalAmount.Add(order.TotalAmount);
                     numOfOrder.Add(1);
-                    foreach(var o in of)
+                    foreach (var o in of)
                     {
                         var foodName = _context.Foods.Where(f => f.Id == o.Fid).FirstOrDefault();
                         if (!lstFood.Contains(foodName.FoodName))
@@ -150,6 +185,7 @@ namespace SteakShop.Controllers
                 // Thêm ngày vào danh sách
             }
             formatDt = dt.Select(d => d.ToString("yyyy-MM-dd")).ToList();
+            formatDtCmt = dtCmt.Select(d => d.ToString("yyyy-MM-dd")).ToList();
             response = new
             {
                 Data0 = fromDate,
@@ -160,7 +196,13 @@ namespace SteakShop.Controllers
                 Data5 = fquantity.ToArray(),
                 Data6 = totalRevenue,
                 Data7 = totalOrder,
-                Data8 = totalFood
+                Data8 = totalFood,
+                Data9 = numOfComment.ToArray(),
+                Data10 = dtComment.Count,
+                Data11 = formatDtCmt.ToArray(),
+                Data12 = LoginCount.ToArray(),
+                Data13 = UserName.ToArray(),
+                Data14 = LoginRating.ToString()
             };
             return Json(response);
         }

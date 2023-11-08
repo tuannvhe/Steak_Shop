@@ -4,43 +4,40 @@ using SteakShop.Models;
 
 namespace SteakShop.Controllers
 {
-    public class MarketingScheduleController : Controller
+    public class ScheduleController : Controller
     {
         private readonly Steak_ShopContext _context;
 
-        public MarketingScheduleController(Steak_ShopContext context)
+        public ScheduleController(Steak_ShopContext context)
         {
             _context = context;
         }
 
-        public IActionResult ManageSchedule()
+        public IActionResult Schedule()
         {
+            Notifications();
             var getInfo = _context.ScheduleMarketings.Include(m => m.IdMbNavigation).ToList();
             ViewData.Model = getInfo;
 
-            return View("~/Views/Schedule/ManageSchedule.cshtml");
-        }
-        public ActionResult GetListMSs()
-        {
-            var getInfo = _context.ScheduleMarketings.Include(m => m.IdMbNavigation).ToList();
-
-            ViewData.Model = getInfo;
-            return View("~/Views/Schedule/ManageSchedule.cshtml");
+            return View();
         }
         public ActionResult Create()
         {
+            Notifications();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StartDate,EndDate,CashReceive,IdMb")] ScheduleMarketing sm )
+        public async Task<IActionResult> Create([Bind("Id,StartDate,EndDate,CashReceive,IdMb")] ScheduleMarketing sm)
         {
+            Notifications();
+
             try
             {
                 _context.Add(sm);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(GetListMSs));
+                return RedirectToAction(nameof(Schedule));
             }
             catch (Exception)
             {
@@ -50,6 +47,8 @@ namespace SteakShop.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
+            Notifications();
+
             if (id == null || _context.ScheduleMarketings == null)
             {
                 return NotFound();
@@ -65,8 +64,10 @@ namespace SteakShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StartDate,EndDate,CashReceive")] ScheduleMarketing sm)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StartDate,EndDate,CashReceive,IdMb")] ScheduleMarketing sm)
         {
+            Notifications();
+
             if (id != sm.Id)
             {
                 return NotFound();
@@ -87,11 +88,19 @@ namespace SteakShop.Controllers
                     throw;
                 }
             }
-            return RedirectToAction(nameof(GetListMSs));
+            return RedirectToAction(nameof(Schedule));
         }
         private bool MSExists(int id)
         {
             return _context.ScheduleMarketings.Any(f => f.Id == id);
+        }
+        public void Notifications()
+        {
+            var notifications = _context.Notifications
+                .OrderByDescending(o => o.Id)
+                .ToList();
+            ViewData["Noti"] = notifications;
+            ViewData["Count"] = notifications.Count;
         }
     }
 }

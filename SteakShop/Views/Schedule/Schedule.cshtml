@@ -28,11 +28,11 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Chef Manage</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Schedule Management</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <a href="@Url.Action("Create", "MarketingSchedule")" class="btn btn-primary">Add New</a>
+                    <a href="@Url.Action("Create", "Schedule")" class="btn btn-primary">Add New</a>
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
@@ -59,7 +59,7 @@
                                     <td>@item.CashReceive$</td>
                                     <td>@item.IdMbNavigation.Type</td>
                                     <td>
-                                        <a href="@Url.Action("Edit", "MarketingSchedule", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                                        <a href="@Url.Action("Edit", "Schedule", new { id = item.Id })" class="btn btn-primary">Edit</a>
                                     </td>
                                 </tr>
                             }

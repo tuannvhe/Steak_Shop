@@ -7,7 +7,7 @@
 
 <h1>Create</h1>
 
-<h4>Food</h4>
+<h4>New Marketing Schedule</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -31,7 +31,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdMb" class="control-label"></label>
-                <input readonly asp-for="IdMb" class="form-control">
+                <input asp-for="IdMb" class="form-control">
+                <span asp-validation-for="IdMb" class="text-danger"></span>
             </div>   
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -41,7 +42,7 @@
 </div>
 
 <div>
-    <a asp-action="GetListChefs" class="btn btn-primary">Back to List</a>
+    <a asp-action="Schedule" class="btn btn-primary">Back to List</a>
 </div>
 
 @section Scripts {

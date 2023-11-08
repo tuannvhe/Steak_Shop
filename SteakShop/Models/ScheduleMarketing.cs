@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SteakShop.Models
 {
@@ -9,6 +10,7 @@ namespace SteakShop.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public decimal? CashReceive { get; set; }
+        [Range(1, 5)]
         public int IdMb { get; set; }
 
         public virtual MarketingBudget IdMbNavigation { get; set; } = null!;

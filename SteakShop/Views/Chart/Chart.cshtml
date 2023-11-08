@@ -70,7 +70,7 @@
                             <a class="dropdown-item" id="9" href="#">Năm trước</a>
                         </div>
                     </div>
-                    
+
                     @* <button class="btnCr">
                     So sánh: Hôm nay
                     </button> *@
@@ -80,89 +80,111 @@
                         <div class="col-xl-8 col-lg-7">
 
                             <!-- Area Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Total Revenue</h6>
-                                    <h6 class="m-0 font-weight-bold text-primary" id="TotalRevenue">0 $ - </h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    <p id="stylingText">
-                                        Styling for the bar chart can be found in the file.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <!-- Bar Chart -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Total Orders</h6>
-                                    <h6 class="m-0 font-weight-bold text-primary" id="NumOfOrders">0  - </h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
-                                    </div>
-                                    <hr>
-                                    <p id="stylingText1">
-                                        Styling for the bar chart can be found in the file.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Total Ordered Food</h6>
-                                    <h6 class="m-0 font-weight-bold text-primary" id="NumOfFoods">0  - </h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myChart1"></canvas>
-                                    </div>
-                                    <hr>
-                                    <p id="stylingText2">
-                                        Styling for the bar chart can be found in the file.
-                                    </p>
-                                </div>
-                            </div>
+                           
+                            
+                            
                         </div>
 
-                        @* <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Total Ordered Food</h6>
-                                <h6 class="m-0 font-weight-bold text-primary">0  - </h6>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Total Revenue</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="TotalRevenue">0 $ - </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="myChart"></canvas>
                             </div>
-                            <div class="card-body">
-                                <div class="chart-area">
-                                    <canvas id="myChart1"></canvas>
-                                </div>
-                                <hr>
-                                Styling for the area chart can be found in the file.
-                            </div>
-                        </div> *@
+                            <hr>
+                            <p id="stylingText">
+                                Styling for the bar chart can be found in the file.
+                            </p>
+                        </div>
                     </div>
 
+                    <!-- Bar Chart -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Total Orders</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="NumOfOrders">0  - </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-bar">
+                                <canvas id="myBarChart"></canvas>
+                            </div>
+                            <hr>
+                            <p id="stylingText1">
+                                Styling for the bar chart can be found in the file.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Total Ordered Food</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="NumOfFoods">0  - </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="myChart1"></canvas>
+                            </div>
+                            <hr>
+                            <p id="stylingText2">
+                                Styling for the bar chart can be found in the file.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Total Comments/Interaction</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="NumOfComments">0  - </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="CommentChart"></canvas>
+                            </div>
+                            <hr>
+                            <p id="stylingText3">
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Customer login</h6>
+                            <h6 class="m-0 font-weight-bold text-primary" id="NumOfLogins">Returning Customer Rate: 0%  - </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-area">
+                                <canvas id="LoginChart"></canvas>
+                            </div>
+                            <hr>
+                            <p id="stylingText4">
+                            </p>
+                        </div>
+                    </div>
+                    
                 </div>
-                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2019</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2019</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
 
+    </div>
+    <!-- End of Content Wrapper -->
     </div>
     <!-- End of Page Wrapper -->
     <!-- Scroll to Top Button-->
@@ -201,7 +223,7 @@
 
     <!-- Page level plugins -->
     <script src="~/Admin/vendor/chart.js/Chart.min.js"></script>
-    
+
     <!-- Page level custom scripts -->
     <script src="~/Admin/js/demo/chart-area-demo.js"></script>
     <script src="~/Admin/js/demo/chart-pie-demo.js"></script>
@@ -211,18 +233,9 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
-        $('.dropdown-item').click(function () {
-
-            // Lấy nội dung của dropdown item
-            var itemContent = $(this).html();
-
-            // Thay đổi nội dung của button
-            $('.dropdown-toggle').html(itemContent);
-
-        });
         // var chartData = @Html.Raw(Json.Serialize(ViewData["ChartData"]));
         // var bigData = @Html.Raw(Json.Serialize(ViewData["bigData"]));
-        var chartData = [0, 10, 20, 30 , 40];
+        var chartData = [0, 10, 20, 30, 40];
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line', // để vẽ đường
@@ -257,7 +270,7 @@
                 ]
             }
         });
-        
+
         var ctx2 = document.getElementById('myChart1').getContext('2d');
         var myChart1 = new Chart(ctx2, {
             type: 'line',
@@ -268,6 +281,29 @@
                 }]
             }
         });
+
+        //Interaction count
+        var ctx3 = document.getElementById('CommentChart').getContext('2d');
+        var CommentChart = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: []
+                }]
+            }
+        });
+        var ctx4 = document.getElementById('LoginChart').getContext('2d');
+        var LoginChart = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: []
+                }]
+            }
+        });
+
         $('.dropdown-item').click(function () {
             var id = $(this).attr('id');
 
@@ -279,33 +315,52 @@
                     var Data0 = response.data0;
                     var Data1 = response.data1; // gán dữ liệu vào biến
                     var Data2 = response.data2; // gán dữ liệu vào biến
-                    var Data3 = response.data3
-                    var Data4 = response.data4
-                    var Data5 = response.data5
-                    var Data6 = response.data6
-                    var Data7 = response.data7
-                    var Data8 = response.data8
+                    var Data3 = response.data3;
+                    var Data4 = response.data4;
+                    var Data5 = response.data5;
+                    var Data6 = response.data6;
+                    var Data7 = response.data7;
+                    var Data8 = response.data8;
+                    var Data9 = response.data9;
+                    var Data10 = response.data10;
+                    var Data11 = response.data11;
+                    var Data12 = response.data12;
+                    var Data13 = response.data13;
+                    var Data14 = response.data14;
+
                     myChart.data.datasets[0].data = Data1;
                     myChart.data.labels = Data2;
                     barChart.data.datasets[0].data = Data3;
                     barChart.data.labels = Data2;
                     myChart1.data.datasets[0].data = Data5;
-                    myChart1.data.labels = Data4
+                    myChart1.data.labels = Data4;
+                    CommentChart.data.datasets[0].data = Data9;
+                    CommentChart.data.labels = Data11;
+                    LoginChart.data.datasets[0].data = Data12;
+                    LoginChart.data.labels = Data13;
+
                     var today = new Date();
-                    // Với JavaScript thuần
-                    document.getElementById("stylingText").innerText = Data0 +"---------------------------"+today;
+                    document.getElementById("stylingText").innerText = Data0 + "---------------------------" + today;
                     document.getElementById("stylingText1").innerText = Data0 + "---------------------------" + today;
                     document.getElementById("stylingText2").innerText = Data0 + "---------------------------" + today;
+                    document.getElementById("stylingText3").innerText = Data0 + "---------------------------" + today;
+                    document.getElementById("stylingText4").innerText = Data0 + "---------------------------" + today;
+
                     document.getElementById("TotalRevenue").innerText = Data6;
                     document.getElementById("NumOfOrders").innerText = Data7;
                     document.getElementById("NumOfFoods").innerText = Data8;
+                    document.getElementById("NumOfComments").innerText = Data10;
+                    document.getElementById("NumOfLogins").innerText = "Returning Customer Rate: "+ Data14+"%";
+
                     myChart.update();
                     barChart.update();
                     myChart1.update();
+                    CommentChart.update();
+                    LoginChart.update()
                 }
             });
         });
-        
+
     </script>
 </body>
 

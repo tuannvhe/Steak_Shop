@@ -1,19 +1,20 @@
 ﻿@model SteakShop.Models.User
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Your Information";
 }
 
-<h1>Register</h1>
+<h1>Your Information</h1>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Register" asp-controller="User" method="post">
+        <form asp-action="Edit" asp-controller="User" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Username" class="control-label"></label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for="Username" class="form-control" value="@Model.Username" readonly="readonly"/>
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -21,32 +22,35 @@
                 <input type="password" asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label id="RePassword" name="RePassword" class="control-label"></label>
+                <input type="password" id="RePassword" name="RePassword" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Role" value="2" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
-                <input  asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control" value="@Model.Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input type="email" asp-for="Email" class="form-control" />
+                <input type="email" asp-for="Email" class="form-control" value="@Model.Email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Phone" class="control-label"></label>
-                <input  asp-for="Phone" class="form-control" />
+                <input asp-for="Phone" class="form-control" value="@Model.Phone" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+                <input asp-for="Address" class="form-control" value="@Model.Address" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="NumberOfLogins" value="0" />
             <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
+                <input type="submit" value="Update Information" class="btn btn-primary" />
             </div>
         </form>
-        <a class="btn btn-primary" asp-action="Index" asp-controller="Home">Back To Home Page</a>
     </div>
 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SteakShop.Models;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -29,6 +30,10 @@ namespace SteakShop.Controllers
                 return View("~/Views/User/Login.cshtml");
             else
             {
+                user1.NumberOfLogins += 1;
+                _context.Update(user1);
+                _context.SaveChanges();
+
                 HttpContext.Session.SetString("Username", user.Username);
                 HttpContext.Session.SetInt32("Role", user1.Role);
                 return RedirectToAction("Index", "Home");
@@ -40,74 +45,80 @@ namespace SteakShop.Controllers
             HttpContext.Session.SetInt32("Role", 0);
             return RedirectToAction("Login", "User");
         }
-		
-		public IActionResult Register(string username, string password, string name, string email, string phone,string address)
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task <IActionResult> Register([Bind("Id,Username,Password,Role,Name,Email,Phone,Address,NumberOfLogins")] User user)
         {
             try
             {
-                if (!IsEmail(email))
-                {
-                    return View();
-                }else if (!IsPhone(phone))
-                {
-                    return View();
-                }
-                else
-                {
-					User user = new User
-					{
-						Username = username,
-						Password = password,
-						Name = name,
-						Email = email,
-						Phone = phone,
-						Address = address,
-						Role = 2
-					};
-					_context.Users.Add(user);
-					_context.SaveChanges();
-					return RedirectToAction("Login", "Login");
-				}
-			}
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Login));
+            }
             catch (Exception ex)
             {
-                return View(ex.Message);
+                return BadRequest("Register failed. " + ex);
             }
            
         }
-        private bool IsEmail(string email)
-        {
-			// Biểu thức chính quy kiểm tra định dạng email
-			string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-
-			// Sử dụng Regex.IsMatch để kiểm tra email
-			return Regex.IsMatch(email, pattern);
-		}
-
-		private bool IsPhone(string phone)
-		{
-			// Chia chuỗi thành mảng các số nguyên, sử dụng dấu phân cách (ví dụ: khoảng trắng) để tách
-			string[] numbers = phone.Split(' ');
-
-			if (numbers.Length != 10)
-			{
-				return false; // Nếu không có đúng 10 số, chuỗi không hợp lệ
-			}
-
-			foreach (string number in numbers)
-			{
-				if (!int.TryParse(number, out _))
-				{
-					return false; // Nếu không thể chuyển đổi thành số nguyên, chuỗi không hợp lệ
-				}
-			}
-
-			return true; // Nếu tất cả 10 số đều là số nguyên, chuỗi hợp lệ
-		}
+        
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult MyAccount()
+        {
+            string Username = HttpContext.Session.GetString("Username") ?? "";
+            var user = _context.Users.Where(u => u.Username == Username).FirstOrDefault();         
+            return View(user);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,Password,Role,Name,Email,Phone,Address,NumberOfLogins")] User user)
+        {
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+            try
+            {
+                string rePass = Request.Form["RePassword"];
+                if (user.Password != null && rePass != null! && !user.Password.Equals(rePass))
+                {
+                    return View(user);
+                }
+                else
+                {
+                    var user1 = _context.Users.Find(id);
+                    user.Password = user1.Password;
+                    user.NumberOfLogins = user1.NumberOfLogins;
+
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }               
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(user.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(f => f.Id == id);
         }
     }
 }

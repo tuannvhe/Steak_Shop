@@ -72,10 +72,13 @@ namespace SteakShop.Controllers
                 Address = user.Address,
                 TotalAmount = GetTotal()
             };
+            user.NumberOfLogins += 1;
+
             var notificationMessage = JsonConvert.SerializeObject(notificationData);
             var hubContext = HttpContext.RequestServices.GetRequiredService<IHubContext<NotificationHub>>();
             await hubContext.Clients.All.SendAsync("ReceiveNotification", notificationMessage);
 
+            _context.Users.Update(user);
             _context.Add(notification);
             _context.Add(order);
             _context.SaveChanges();

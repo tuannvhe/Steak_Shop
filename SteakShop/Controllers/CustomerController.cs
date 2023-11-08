@@ -49,6 +49,22 @@ namespace SteakShop.Controllers
             if (getUser == null) return NotFound();
             return View(getUser);
         }
+        public ActionResult Information1(string username)
+        {
+            Notifications();
+            var getUser = _context.Users.Where(u => u.Username == username).FirstOrDefault();
+            if (getUser == null) return NotFound();
+            return View(getUser);
+        }        
+        public IActionResult TopInteractPage()
+        {
+            Notifications();
+            var user = _context.Users
+                .OrderByDescending(u => u.NumberOfLogins)
+                .ToList();
+            ViewData.Model = user;
+            return View();
+        }
         public void Notifications()
         {
             var notifications = _context.Notifications

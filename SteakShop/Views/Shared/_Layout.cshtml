@@ -67,6 +67,9 @@
                         <li class="nav-item submenu dropdown">
                             <a class="nav-link" asp-area="" asp-controller="User" asp-action="Login"><img src="~/SteakShop/img/header/nav-icon7.png" alt="">Login</a>
                         </li>
+                        <li class="nav-item submenu dropdown">
+                            <a class="nav-link" asp-area="" asp-controller="User" asp-action="Register"><img src="~/SteakShop/img/header/nav-icon7.png" alt="">Register</a>                    
+                        </li>
                     }
                     else
                     {
@@ -76,8 +79,7 @@
                             <ul class="dropdown-menu">
                                 @if (Role.Equals(0))
                                 {
-                                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Cart">My Cart</a></li>
-                                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Admin">Manage</a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Chart" asp-action="Chart">Admin Manage</a></li>
                                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="User" asp-action="Logout">Logout</a></li>
                                 }
                                 else
